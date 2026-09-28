@@ -1,0 +1,1573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- flow-rebuild template (Growth Audit, v2). Replace every double-brace placeholder, everything between
+     the SCREENS markers, and the CONTENT json. Rules that brand-check.py enforces are marked RULE.
+     Reference builds: eddieatadapty.github.io/datacamp-flow-rebuild-v2 · bterzic123.github.io/planner5d-flow-rebuild-v2 -->
+<title>Symmetry Growth Audit</title>
+<meta name="description" content="Five ideas to turn more Symmetry users into subscribers, each built into a clickable version of Symmetry's own onboarding. Prepared by Adapty.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- the APP's font (brand.json fonts, or the closest Google family) + a mono if the app shows code -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+/* BRAND:START — the only place the APP's colours are written as literals. RULE: every value here is
+   copied from brand.json / a sampled pixel of the app's own screens; never "improved". Used only inside the phone. */
+:root{
+  --b-primary:#ffffff;       /* their CTA is a white button */
+  --b-primary-ink:#131313;   /* text on the white button */
+  --b-bg:#131313;            /* screen background (quiz 354999) */
+  --b-surface:#212121;       /* quiz rows, back button */
+  --b-card:#1c1c1c;          /* cards (testimonial, plan cards) */
+  --b-ink:#ffffff;
+  --b-ink2:#9a9a9a;          /* secondary text, row hints */
+  --b-line:#494949;          /* unselected plan border */
+  --b-track:#505050;         /* progress track */
+  --b-soft:#f9f9fa;          /* selected row / CONTINUE button */
+  --b-accent:#3773f3;        /* timeline dots, progress blue */
+  --b-accent2:#1789f9;       /* "Save 72%" banner */
+  --b-sel:#d7e7fe;           /* selected yearly card */
+  --b-sel-a:#f7f8fc; --b-sel-b:#e4f0fe;   /* selected objective tile gradient */
+  --b-navy:#1e2e47; --b-navy2:#1a213d; --b-navy3:#1d2c4b; --b-navy-line:#2b4078; --b-navy-edge:#234ca6;
+  --b-chart:#5080d0; --b-red:#ba4051; --b-red2:#8d2331;   /* With / Without Symmetry chart */
+  --b-t-iron:#7b8290; --b-t-bronze:#b2633c; --b-t-silver:#bcc3d1; --b-t-gold:#f3bb3a;
+  --b-t-ruby:#d20134; --b-t-emerald:#33cc6a; --b-t-diamond:#43a1da;   /* rank ladder labels (355034) */
+  --b-grad:radial-gradient(120% 62% at 50% 16%,#1e2e47 0%,#1a213d 40%,#131313 82%);  /* paywall glow */
+  --b-radius:16px;
+  --b-pill:14px;             /* their buttons are rounded rectangles, not pills */
+  --b-font:'DM Sans',-apple-system,system-ui,sans-serif;
+  --b-mono:ui-monospace,monospace;
+}
+/* BRAND:END */
+/* A second app family (e.g. a mono for code) is applied HERE, never in SCREENS css (brand-check allows only
+   var(--b-font) there). Prefix with .scr so it beats the screens' font shorthands, e.g.:
+   .scr .code,.scr .instr code{font-family:var(--b-mono)} */
+
+/* ================= the audit page — Adapty's, not the app's. Light, Apple-style. ================= */
+:root{
+  color-scheme:light;
+  --st-ground:#f5f5f7; --st-card:#ffffff; --st-ink:#1d1d1f; --st-ink2:#6e6e73; --st-ink3:#86868b;
+  --st-hair:rgba(0,0,0,.09); --st-link:#0066cc;
+  --st-accent:#1a213d;      /* Symmetry navy: buttons, the outcome band */
+  --st-hi:#3781fa;          /* Symmetry blue: outcome numbers on the band, idea dots */
+  --st-mark:rgba(55,129,250,.42); /* --st-hi at ~.4 alpha: the highlighter under impact numbers */
+  --st-font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+html,body{margin:0}
+body{background:var(--st-ground);color:var(--st-ink);font-family:var(--st-font);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.47}
+.au-wrap{max-width:1080px;margin:0 auto;padding-inline:22px}
+a{color:var(--st-link)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--st-link);outline-offset:3px;border-radius:6px}
+mark{background:linear-gradient(transparent 62%,var(--st-mark) 62%,var(--st-mark) 92%,transparent 92%);color:inherit;padding:0 .04em}
+
+/* nav */
+.au-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(245,245,247,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--st-hair)}
+.au-nav-in{max-width:1080px;margin:0 auto;padding-inline:22px;height:52px;display:flex;align-items:center;gap:26px}
+.au-brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.au-brand img{width:26px;height:26px;border-radius:7px;flex:none}
+.au-brand span{font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.au-brand small{font-size:15px;font-weight:400;color:var(--st-ink2)}
+.au-nav a{font-size:13px;color:var(--st-ink);text-decoration:none;opacity:.82}
+.au-nav a:hover{opacity:1}
+@media (max-width:560px){.au-nav a.au-opt{display:none}.au-brand small{display:none}}
+
+/* hero */
+.au-top-hero{text-align:center;padding-top:clamp(56px,9vw,96px);overflow:hidden;position:relative}
+.au-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--st-ink);margin:0 0 14px}
+.au-eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-display{font-size:clamp(60px,12vw,120px);line-height:.98;font-weight:700;letter-spacing:-.05em;margin:0}
+.au-lede{font-size:clamp(23px,3.4vw,34px);line-height:1.16;font-weight:600;letter-spacing:-.022em;max-width:760px;margin:22px auto 0;text-wrap:balance}
+.au-lede span{color:var(--st-ink2)}
+.au-byline{font-size:14px;color:var(--st-ink3);margin:18px 0 0}
+.au-ctas{display:flex;gap:26px;justify-content:center;align-items:center;margin-top:30px;flex-wrap:wrap}
+.au-btn{display:inline-block;background:var(--st-accent);color:#fff;border-radius:980px;padding:12px 23px;font-size:17px;font-weight:500;text-decoration:none;border:0;cursor:pointer}
+.au-btn:hover{filter:brightness(1.25)}
+.au-lnk{background:none;border:0;padding:0;color:var(--st-link);font-size:17px;text-decoration:none;cursor:pointer}
+.au-lnk::after{content:"\00a0›"}
+.au-lnk:hover{text-decoration:underline}
+.au-phones{display:flex;justify-content:center;align-items:flex-start;margin-top:clamp(40px,6vw,64px);height:clamp(300px,52vw,560px)}
+.au-hp{flex:none;border:0;padding:0;background:none;cursor:pointer;width:27%;max-width:290px;margin:0 -2.5%;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.au-hp img{display:block;width:100%;height:auto;filter:drop-shadow(0 28px 50px rgba(0,0,0,.2))}
+.au-hp.au-c{width:31%;max-width:330px;z-index:2}
+.au-hp.au-l{transform:translateY(12%) rotate(-5deg)}
+.au-hp.au-r{transform:translateY(12%) rotate(5deg)}
+.au-hp.au-l:hover{transform:translateY(9%) rotate(-5deg)}.au-hp.au-r:hover{transform:translateY(9%) rotate(5deg)}.au-hp.au-c:hover{transform:translateY(-3%)}
+
+/* sections */
+.au-sec{padding-block:clamp(72px,10vw,120px)}
+.au-sec.au-white{background:var(--st-card)}
+.au-kicker{font-size:15px;font-weight:600;color:var(--st-ink2);margin:0 0 12px}
+.au-h2{font-size:clamp(34px,5.2vw,56px);line-height:1.06;font-weight:700;letter-spacing:-.035em;margin:0;text-wrap:balance}
+.au-h2 span{color:var(--st-ink3)}
+.au-split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,6vw,80px);align-items:end}
+.au-split p{margin:0;font-size:clamp(17px,1.7vw,21px);line-height:1.45;color:var(--st-ink2);letter-spacing:-.01em}
+.au-split p b{color:var(--st-ink);font-weight:600}
+.au-split p + p{margin-top:16px}
+.au-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(48px,7vw,80px);border-top:1px solid var(--st-hair)}
+.au-stat{padding:28px 20px 0 0}
+.au-stat b{display:block;font-size:clamp(40px,5.5vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.au-stat span{display:block;font-size:15px;color:var(--st-ink2);margin-top:10px;max-width:22ch}
+.au-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:clamp(48px,7vw,72px)}
+.au-note h3{font-size:19px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px}
+.au-note p{margin:0;font-size:15.5px;line-height:1.5;color:var(--st-ink2)}
+.au-note .au-ic{width:36px;height:36px;border-radius:10px;background:var(--st-ground);display:grid;place-items:center;margin-bottom:16px}
+.au-note .au-ic svg{width:19px;height:19px;stroke:var(--st-accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ideas */
+.au-ideas-h{margin-bottom:clamp(32px,5vw,48px)}
+.au-list{background:var(--st-card);border-radius:28px;padding-inline:clamp(20px,4vw,44px)}
+.au-idea{display:grid;grid-template-columns:56px 1fr 220px;gap:20px;align-items:start;padding-block:clamp(26px,3.5vw,36px);border-top:1px solid var(--st-hair)}
+.au-idea:first-child{border-top:0}
+.au-idea .au-num{font-size:15px;font-weight:600;color:var(--st-ink3);font-variant-numeric:tabular-nums;padding-top:6px}
+.au-idea h3{font-size:clamp(21px,2.4vw,26px);line-height:1.2;font-weight:600;letter-spacing:-.022em;margin:0 0 8px}
+.au-idea p{margin:0 0 12px;font-size:17px;line-height:1.5;color:var(--st-ink2);max-width:58ch}
+.au-idea p code{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--st-ink);background:var(--st-ground);padding:2px 7px;border-radius:6px}
+.au-idea .au-lnk{font-size:15px}
+.au-imp{text-align:right}
+.au-imp .au-v{font-size:clamp(30px,3.6vw,40px);font-weight:700;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums;color:var(--st-accent)}
+.au-imp .au-l{font-size:13.5px;color:var(--st-ink2);margin-top:8px}
+.au-band{margin-top:20px;background:var(--st-accent);color:#fff;border-radius:28px;padding:clamp(32px,5vw,56px);display:grid;grid-template-columns:1fr auto;gap:clamp(28px,5vw,64px);align-items:center}
+.au-band .au-k{font-size:15px;font-weight:600;color:rgba(255,255,255,.62);margin:0 0 10px}
+.au-band h3{font-size:clamp(24px,3vw,32px);line-height:1.18;font-weight:600;letter-spacing:-.022em;margin:0;text-wrap:balance}
+.au-band .au-fn{font-size:13px;line-height:1.5;color:rgba(255,255,255,.55);margin:16px 0 0;max-width:52ch}
+.au-nums{display:flex;gap:clamp(28px,4vw,48px)}
+.au-nums small{display:block;font-size:13px;color:rgba(255,255,255,.62)}
+.au-nums b{display:block;font-size:clamp(48px,6.5vw,76px);font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--st-hi);font-variant-numeric:tabular-nums;margin:4px 0 8px}
+.au-nums span{font-size:14px;color:rgba(255,255,255,.8)}
+.au-band .au-btn{background:var(--st-hi);color:var(--st-accent);font-weight:600;margin-top:26px}
+
+/* prototype */
+.au-proto-h{text-align:center;max-width:720px;margin:0 auto}
+.au-proto-h p{font-size:clamp(17px,1.7vw,21px);color:var(--st-ink2);margin:14px 0 0}
+.au-seg{display:flex;gap:4px;justify-content:center;margin:clamp(28px,4vw,40px) auto 0;padding:4px;background:var(--st-ground);border-radius:980px;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.au-seg::-webkit-scrollbar{display:none}
+.au-chip{flex:none;display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--st-ink2);font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:980px;cursor:pointer;white-space:nowrap}
+.au-chip:hover{color:var(--st-ink)}
+.au-chip.on{background:var(--st-card);color:var(--st-ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.au-chip i{font-style:normal;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--st-hi);color:var(--st-accent)}
+.au-stage{display:grid;grid-template-columns:auto minmax(0,420px);gap:clamp(32px,6vw,72px);justify-content:center;align-items:center;margin-top:clamp(28px,4vw,44px)}
+.phone{width:390px;height:844px;border-radius:56px;padding:10px;background:#0b0d10;box-shadow:0 0 0 1.5px #3a3d42,0 40px 90px rgba(0,0,0,.25);max-width:calc(100vw - 44px)}
+.phone-in{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;background:var(--b-bg)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:9}
+.sbar{position:absolute;top:0;left:0;right:0;height:52px;display:flex;justify-content:space-between;align-items:center;padding:4px 32px 0;font:600 15px -apple-system,system-ui,sans-serif;color:var(--b-ink);z-index:8;pointer-events:none}
+.au-pn{background:var(--st-ground);border-radius:28px;padding:clamp(26px,3.5vw,38px)}
+.au-pn-k{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--st-ink)}
+.au-pn-k i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-pn-k.au-ctx{color:var(--st-ink2)}.au-pn-k.au-ctx i{background:var(--st-ink3);box-shadow:none}
+.au-pn-t{font-size:clamp(24px,2.6vw,30px);line-height:1.12;font-weight:700;letter-spacing:-.028em;margin:10px 0 14px;text-wrap:balance}
+.au-pn-h{margin:0;font-size:17px;line-height:1.55;color:var(--st-ink2)}
+.au-pn-h b{color:var(--st-ink);font-weight:600}
+.au-pn-o{margin-top:24px;padding-top:22px;border-top:1px solid var(--st-hair)}
+.au-pn-o .au-lab{font-size:13px;font-weight:600;color:var(--st-ink3)}
+.au-pn-o .au-val{font-size:clamp(38px,4.4vw,50px);font-weight:700;letter-spacing:-.04em;line-height:1.05;color:var(--st-accent);margin-top:6px;font-variant-numeric:tabular-nums}
+.au-pn-o .au-sub{font-size:14px;color:var(--st-ink2);margin-top:4px}
+.au-pn-a{margin:18px 0 0;font-size:14px;line-height:1.5;color:var(--st-ink2)}
+.au-pn-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:28px;padding-top:18px;border-top:1px solid var(--st-hair);font-size:13px;color:var(--st-ink3)}
+.au-pn-nav button{background:var(--st-card);border:0;border-radius:980px;padding:8px 15px;font-size:14px;font-weight:500;color:var(--st-ink);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.au-pn-nav button:disabled{opacity:.35;cursor:default}
+.au-hint{text-align:center;font-size:14px;color:var(--st-ink3);margin:22px 0 0}
+
+/* footer */
+.au-foot{padding-block:56px 72px;border-top:1px solid var(--st-hair)}
+.au-foot details{border-bottom:1px solid var(--st-hair);padding-bottom:18px}
+.au-foot summary{cursor:pointer;font-size:17px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.au-foot summary::-webkit-details-marker{display:none}
+.au-foot summary::after{content:"+";font-size:24px;font-weight:300;color:var(--st-ink2)}
+.au-foot details[open] summary::after{content:"−"}
+.au-srcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 48px;margin-top:18px}
+.au-srcs h4{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--st-ink3);margin:18px 0 6px}
+.au-srcs dl{margin:0}.au-srcs dt{font-size:14.5px;font-weight:600;margin-top:10px}
+.au-srcs dd{margin:3px 0 0;font-size:14px;line-height:1.5;color:var(--st-ink2)}
+.au-fine{font-size:12.5px;line-height:1.6;color:var(--st-ink3);margin:22px 0 0;max-width:80ch}
+.au-cta-line{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:36px}
+.au-cta-line p{margin:0;font-size:clamp(19px,2.2vw,24px);font-weight:600;letter-spacing:-.02em;max-width:34ch}
+
+@media (max-width:900px){
+  .au-split,.au-band{grid-template-columns:1fr}
+  .au-notes{grid-template-columns:1fr}
+  .au-idea{grid-template-columns:40px 1fr}
+  .au-imp{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:10px}
+  .au-imp .au-l{margin:0}
+  .au-imp .au-v{white-space:nowrap}
+  .au-stage{grid-template-columns:1fr;justify-items:center}
+  .au-pn{width:100%;max-width:520px}
+  .au-srcs{grid-template-columns:1fr}
+}
+@media (max-width:560px){.au-stats{grid-template-columns:1fr}.au-stat{padding:22px 0 0}.au-nums{flex-direction:column;gap:18px}}
+
+/* ================= v2 extras (audit side): video, language, phone view, paywall today vs proposed, tour ================= */
+/* the device never scrolls: off-screen slides would otherwise make it scrollable by focus / scrollIntoView */
+.phone-in,.scr{overflow:clip}
+/* hero: walkthrough link */
+.au-play::before{content:"▶";font-size:.72em;margin-right:7px;position:relative;top:-1px}
+/* video dialog */
+.au-vid{border:0;padding:0;background:transparent;max-width:min(1120px,94vw);width:100%;overflow:visible}
+.au-vid::backdrop{background:rgba(0,0,0,.74);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.au-vid-in{background:#000;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.au-vid video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.au-vid-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 4px 0;font-size:14px}
+.au-vid-bar a{color:#fff;opacity:.85}
+.au-vid-x{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:980px;padding:8px 16px;font-size:14px;cursor:pointer}
+/* language switch */
+.au-langrow{display:flex;justify-content:center;align-items:center;gap:12px;margin:18px 0 0;font-size:13.5px;color:var(--st-ink2);flex-wrap:wrap}
+.au-lsw{display:inline-flex;gap:2px;padding:3px;background:var(--st-ground);border-radius:980px}
+.au-lsw button{border:0;background:none;padding:6px 13px;border-radius:980px;font-size:13.5px;font-weight:500;color:var(--st-ink2);cursor:pointer;white-space:nowrap}
+.au-lsw button.on{background:var(--st-card);color:var(--st-ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+/* QR card (desktop) / full-screen button (phone) */
+.au-qr{display:flex;align-items:center;gap:18px;margin:26px auto 0;max-width:500px;background:var(--st-ground);border-radius:22px;padding:14px 22px 14px 14px}
+.au-qr img{width:112px;height:112px;border-radius:12px;image-rendering:pixelated;flex:none;background:#fff}
+.au-qr b{display:block;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.au-qr p{margin:4px 0 0;font-size:14.5px;line-height:1.45;color:var(--st-ink2)}
+.au-mobw{display:none;text-align:center;margin-top:22px}
+@media (max-width:900px){.au-qr{display:none}.au-mobw{display:block}}
+/* paywall: today vs proposed */
+.au-cmp{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr) minmax(0,290px);gap:clamp(24px,4vw,52px);align-items:center;margin-top:clamp(32px,5vw,52px)}
+.au-cmp figure{margin:0;text-align:center}
+.au-cmp figure img{display:block;width:100%;height:auto;filter:drop-shadow(0 24px 44px rgba(0,0,0,.18))}
+.au-cmp figcaption{margin-top:14px;font-size:15px;font-weight:600}
+.au-cmp figcaption span{color:var(--st-ink2);font-weight:400}
+.au-cmp-go{border:0;padding:0;background:none;cursor:pointer;display:block;width:100%;transition:transform .3s}
+.au-cmp-go:hover{transform:translateY(-4px)}
+.au-chg{list-style:none;margin:0;background:var(--st-card);border-radius:24px;padding:4px clamp(18px,2.4vw,28px)}
+.au-chg li{padding:15px 0;border-top:1px solid var(--st-hair)}
+.au-chg li:first-child{border-top:0}
+.au-chg h4{margin:0 0 7px;font-size:16px;font-weight:600;letter-spacing:-.01em;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.au-chg h4 i{font-style:normal;font-size:12px;font-weight:600;color:var(--st-accent);background:var(--st-mark);border-radius:6px;padding:2px 8px;white-space:nowrap}
+.au-was,.au-now{display:grid;grid-template-columns:78px 1fr;gap:8px;font-size:14.5px;line-height:1.42}
+.au-was{color:var(--st-ink3)}
+.au-now{color:var(--st-ink);margin-top:3px}
+.au-was em,.au-now em{font-style:normal;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+.au-now em{color:var(--st-link)}
+.au-kept{margin:22px 0 0;font-size:14px;color:var(--st-ink2);text-align:center}
+@media (max-width:900px){.au-cmp{grid-template-columns:1fr 1fr;gap:18px}.au-chg{grid-column:1 / -1;order:3}.au-was,.au-now{grid-template-columns:70px 1fr}}
+
+/* ?app — the prototype full screen on a real phone, with a bar that opens the idea panel */
+html.appmode,html.appmode body{height:100%;overflow:hidden;background:#000}
+html.appmode .au-nav,html.appmode .au-top-hero,html.appmode #why,html.appmode #ideas,html.appmode #compare,html.appmode .au-foot,
+html.appmode .au-proto-h,html.appmode #prototype .au-langrow,html.appmode #chips,html.appmode .au-hint,html.appmode .au-qr,html.appmode .au-mobw{display:none!important}
+html.appmode #prototype{padding:0;background:#000}
+html.appmode #prototype .au-wrap{padding:0;max-width:none}
+html.appmode .au-stage{display:block;margin:0}
+html.appmode .phone{position:fixed;top:0;left:0;right:0;margin:0 auto;width:min(100%,480px);height:calc(100% - 56px - env(safe-area-inset-bottom,0px));max-width:none;border-radius:0;padding:0;box-shadow:none;background:#000}
+html.appmode .phone-in{border-radius:0}
+html.appmode .island,html.appmode .sbar{display:none}
+html.appmode .scr .s-pad{padding-top:max(58px,calc(env(safe-area-inset-top,0px) + 16px))}
+html.appmode .scr .s-x,html.appmode .scr .s-lang{top:max(54px,calc(env(safe-area-inset-top,0px) + 10px))}
+.au-appbar,.au-scrim{display:none}
+html.appmode .au-appbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;height:calc(56px + env(safe-area-inset-bottom,0px));padding:0 12px env(safe-area-inset-bottom,0px) 16px;align-items:center;gap:12px;background:#0b0b0c;border-top:1px solid rgba(255,255,255,.1);color:#fff}
+.au-ab-why{flex:1;min-width:0;display:flex;align-items:center;gap:9px;background:none;border:0;color:#fff;font-size:14px;font-weight:500;text-align:left;cursor:pointer;padding:0}
+.au-ab-why i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);flex:none}
+.au-ab-why span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.au-ab-why em{font-style:normal;color:rgba(255,255,255,.6);margin-left:auto;flex:none;font-size:13px}
+.au-appbar .au-lsw{background:rgba(255,255,255,.12)}
+.au-appbar .au-lsw button{color:rgba(255,255,255,.75);padding:5px 11px}
+.au-appbar .au-lsw button.on{background:#fff;color:#000}
+html.appmode #panel{position:fixed;left:0;right:0;bottom:0;z-index:80;max-width:none;width:auto;margin:0 auto;border-radius:24px 24px 0 0;max-height:78%;overflow:auto;transform:translateY(105%);transition:transform .3s cubic-bezier(.3,.7,.2,1);padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}
+html.appmode.au-open #panel{transform:none}
+html.appmode.au-open .au-scrim{display:block;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,.5)}
+
+/* ?tour — 1280×720 walkthrough frames (rendered into assets/walkthrough.mp4) */
+.au-tour{display:none}
+html.tourmode,html.tourmode body{overflow:hidden;background:var(--st-ground)}
+html.tourmode body *{visibility:hidden}
+html.tourmode .phone,html.tourmode .phone *,html.tourmode .au-tour,html.tourmode .au-tour *{visibility:visible}
+html.tourmode .phone{position:fixed;left:170px;top:44px;margin:0;transform:scale(.755);transform-origin:0 0;box-shadow:0 0 0 1.5px #3a3d42,0 34px 80px rgba(0,0,0,.22);z-index:5;max-width:none}
+html.tourmode .au-tour{display:block;position:fixed;inset:0;z-index:6;pointer-events:none;color:var(--st-ink)}
+.au-tb{position:absolute;left:590px;top:30px;display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600}
+.au-tb img{width:26px;height:26px;border-radius:7px}
+.au-tb small{font-size:16px;font-weight:400;color:var(--st-ink2)}
+.au-tby{position:absolute;right:48px;top:32px;font-size:14px;color:var(--st-ink3)}
+.au-tcap{position:absolute;left:590px;right:60px;top:50%;transform:translateY(-50%)}
+.au-tk{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:600}
+.au-tk i{width:9px;height:9px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-tk.au-ctx{color:var(--st-ink2)}.au-tk.au-ctx i{background:var(--st-ink3);box-shadow:none}
+.au-tt{font-size:46px;line-height:1.06;font-weight:700;letter-spacing:-.035em;margin:14px 0 14px;text-wrap:balance}
+.au-tl{font-size:23px;line-height:1.36;color:var(--st-ink2);letter-spacing:-.01em;margin:0;max-width:28ch}
+.au-to{margin-top:28px;padding-top:22px;border-top:1px solid var(--st-hair)}
+.au-to small{display:block;font-size:14px;font-weight:600;color:var(--st-ink3)}
+.au-to b{display:inline-block;font-size:62px;font-weight:700;letter-spacing:-.045em;line-height:1.08;color:var(--st-accent);margin-top:4px}
+.au-to span{display:block;font-size:16px;color:var(--st-ink2);margin-top:2px}
+.au-tprog{position:absolute;left:48px;right:48px;bottom:22px;height:4px;border-radius:3px;background:var(--st-hair);overflow:hidden}
+.au-tprog i{display:block;height:100%;background:var(--st-hi)}
+.au-ttap{position:absolute;left:0;top:0;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:0 0 0 2.5px rgba(255,255,255,.9),0 6px 16px rgba(0,0,0,.35);opacity:0}
+.au-tintro,.au-tend{position:absolute;inset:0;background:var(--st-ground);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0}
+.au-tintro .au-lede{margin-top:18px}
+.au-te-h{font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.035em;margin:0;max-width:18ch;text-wrap:balance}
+.au-te-n{display:flex;gap:64px;margin-top:30px}
+.au-te-n small{display:block;font-size:14px;color:var(--st-ink2)}
+.au-te-n b{display:block;font-size:76px;font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--st-accent);margin:4px 0 6px}
+.au-te-n span{font-size:15px;color:var(--st-ink2)}
+.au-te-q{display:flex;align-items:center;gap:18px;margin-top:34px;background:var(--st-card);border-radius:20px;padding:12px 24px 12px 12px;text-align:left}
+.au-te-q img{width:104px;height:104px;border-radius:10px;image-rendering:pixelated}
+.au-te-q b{display:block;font-size:18px;font-weight:600}
+.au-te-q span{display:block;font-size:15px;color:var(--st-link);margin-top:3px}
+.au-te-f{position:absolute;bottom:44px;left:0;right:0;font-size:13px;color:var(--st-ink3);margin:0}
+
+/* ---------- screen engine (layout only, no colours) ---------- */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--b-bg);color:var(--b-ink);font-family:var(--b-font);
+     transform:translateX(100%);transition:transform .32s cubic-bezier(.3,.7,.2,1);overflow:hidden;text-align:left;line-height:normal;font-size:16px}
+.scr.is-active{transform:none;z-index:2}.scr.is-past{transform:translateX(-28%)}
+.scr.sheet{transform:translateY(100%)}.scr.sheet.is-active{transform:none}
+.nofx,.nofx *{transition:none!important}
+.shot .scr{transition:none!important}
+/* ?phone — just the device at (10,10), for shoot.sh and hero-stills.sh (&clear = transparent ground) */
+.phoneonly body{background:#141615}
+.phoneonly.clear body{background:transparent}
+.phoneonly body *{visibility:hidden}
+.phoneonly .phone,.phoneonly .phone *{visibility:visible}
+.phoneonly .phone{position:fixed;top:10px;left:10px;z-index:99;box-shadow:none;max-width:none;margin:0}
+
+/* SCREENS:START — Symmetry's screens. Colours only via var(--b-*) or white/black alpha. */
+.s-pad{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:58px 18px 26px;min-height:0}
+.s-top{display:flex;align-items:center;gap:14px;height:40px;flex:none}
+.s-bk{width:36px;height:36px;border-radius:50%;background:var(--b-surface);border:0;color:var(--b-ink);display:grid;place-items:center;cursor:pointer;flex:none;padding:0}
+.s-bk svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.s-bar{flex:1;height:8px;border-radius:5px;background:var(--b-track);overflow:hidden}
+.s-bar i{display:block;height:100%;border-radius:5px;background:var(--b-ink)}
+.s-ttl{font:700 22px/1.32 var(--b-font);letter-spacing:.2px;text-align:center;margin:14px 4px 0;color:var(--b-ink)}
+.s-sub{font:400 14.5px/1.45 var(--b-font);color:var(--b-ink2);text-align:center;margin:8px 6px 0;letter-spacing:.1px}
+.s-cta{margin-top:auto;flex:none;width:100%;height:54px;border:0;border-radius:var(--b-pill);background:var(--b-soft);color:var(--b-primary-ink);font:500 16.5px var(--b-font);letter-spacing:.6px;text-transform:uppercase;cursor:pointer}
+.s-cta.s-lc{text-transform:none;letter-spacing:.4px;font-size:17px}
+.s-cta.s-bold{font-weight:700;letter-spacing:.2px;background:var(--b-primary)}
+.s-link{background:none;border:0;color:var(--b-ink2);font:600 14.5px var(--b-font);padding:12px 0 10px;cursor:pointer;text-align:center;width:100%;letter-spacing:.3px}
+
+/* welcome — kept as recorded */
+.s-welcome{background:#000}
+.s-lang{position:absolute;top:56px;right:16px;z-index:2;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:6px 11px;font:600 13px var(--b-font);color:var(--b-ink);cursor:pointer}
+.s-word{display:block;height:46px;margin:44px auto 0}
+.s-laurels{display:flex;flex-direction:column;gap:26px;margin-top:40px}
+.s-lau{display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+.s-lau .s-lf{height:66px;flex:none}
+.s-lau div{text-align:center}
+.s-lau b{display:block;font:700 25px/1.1 var(--b-font);letter-spacing:.2px}
+.s-lau span{display:block;font:400 14px var(--b-font);margin-top:4px;letter-spacing:.4px}
+.s-lau .s-stars{height:17px;display:block;margin:4px auto 0}
+.s-hl{font:700 29px/1.16 var(--b-font);text-align:center;margin:auto 22px 24px;letter-spacing:-.2px}
+.s-login{text-align:center;font:400 15px var(--b-font);color:var(--b-ink2);margin-top:14px}
+.s-login b{color:var(--b-ink);font-weight:700}
+
+/* goal — their in-app "Choose your objective", moved into onboarding */
+.s-gh{display:flex;align-items:center;gap:10px;margin:18px 2px 0}
+.s-gh svg{width:30px;height:30px;stroke:var(--b-ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.s-gh h2{font:700 22px var(--b-font);letter-spacing:.5px;margin:0}
+.s-echo{display:flex;align-items:center;gap:14px;margin-top:18px;height:50px;border-radius:16px;background:linear-gradient(180deg,var(--b-sel-a),var(--b-sel-b));color:var(--b-primary-ink);padding:0 18px;font:500 16px var(--b-font);border:1.5px solid var(--b-line)}
+.s-echo svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linejoin:round}
+.s-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.s-tile{position:relative;aspect-ratio:1/1;border:0;border-radius:20px;background:linear-gradient(160deg,var(--b-surface),var(--b-card) 70%);color:var(--b-ink);text-align:left;padding:16px 15px;font:700 17px/1.32 var(--b-font);letter-spacing:.5px;cursor:pointer;overflow:hidden;display:flex;align-items:flex-start}
+.s-tile img{position:absolute;right:0;bottom:0;width:48%}
+.s-tile.s-wide img{width:78%}
+.s-tile.on{background:linear-gradient(160deg,var(--b-sel-a),var(--b-sel-b));color:var(--b-primary-ink)}
+
+/* days — kept as recorded */
+.s-seg{display:flex;align-self:center;background:var(--b-card);border-radius:24px;margin:16px 0 14px}
+.s-seg span{padding:11px 22px;border-radius:24px;font:500 15px var(--b-font);letter-spacing:.3px;color:var(--b-ink)}
+.s-seg span.on{background:var(--b-soft);color:var(--b-primary-ink)}
+.s-rows{display:flex;flex-direction:column;gap:9px}
+.s-row{display:flex;justify-content:space-between;align-items:center;height:50px;border:0;border-radius:12px;background:var(--b-surface);color:var(--b-ink);padding:0 16px;font:500 16px var(--b-font);letter-spacing:.4px;cursor:pointer;width:100%}
+.s-row em{font-style:normal;font-weight:400;color:var(--b-ink2)}
+.s-row.on{background:var(--b-soft);color:var(--b-primary-ink)}
+
+/* best set — their set-logging table */
+.s-ex{display:flex;gap:6px;justify-content:center;margin-top:18px}
+.s-ex button{border:1px solid var(--b-line);background:none;color:var(--b-ink);border-radius:20px;padding:9px 11px;font:500 13.5px var(--b-font);cursor:pointer;letter-spacing:.1px;white-space:nowrap}
+.s-ex button.on{background:var(--b-soft);color:var(--b-primary-ink);border-color:var(--b-soft)}
+.s-log{margin-top:16px;background:var(--b-card);border-radius:16px;padding:14px 12px 14px}
+.s-log h3{font:600 15.5px var(--b-font);margin:0 4px 12px;letter-spacing:.2px}
+.s-lh,.s-lr{display:grid;grid-template-columns:30px 1fr 1fr;gap:10px;align-items:center}
+.s-lh{font:500 11.5px var(--b-font);letter-spacing:.9px;color:var(--b-ink2);text-transform:uppercase;padding:0 4px 8px;text-align:center}
+.s-lr{background:var(--b-navy3);border-radius:10px;padding:8px 6px}
+.s-lr > b{font:600 15px var(--b-font);text-align:center}
+.s-step{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.07);border-radius:9px;height:40px}
+.s-step button{width:32px;height:40px;border:0;background:none;color:var(--b-ink);font:500 20px var(--b-font);cursor:pointer;padding:0}
+.s-step b{font:700 16.5px var(--b-font)}
+.s-bw{display:flex;justify-content:space-between;align-items:center;margin-top:10px;background:var(--b-card);border-radius:16px;padding:10px 10px 10px 16px}
+.s-bw span{font:500 15px var(--b-font)}
+.s-bw small{display:block;font:400 12px var(--b-font);color:var(--b-ink2);margin-top:2px}
+.s-bw .s-step{width:140px;flex:none}
+
+/* rank — their RANK UP screen */
+.s-rank{background:#000}
+.s-segs{display:flex;gap:6px;margin-top:4px}
+.s-segs i{flex:1;height:4px;border-radius:3px;background:var(--b-ink)}
+.s-rkx{display:flex;align-items:center;gap:10px;margin-top:18px;font:600 15.5px var(--b-font);letter-spacing:1.4px;text-transform:uppercase}
+.s-rkx span{width:30px;height:30px;border-radius:50%;background:var(--b-ink);display:grid;place-items:center;flex:none}
+.s-rkx em{font-style:normal}
+.s-rkx svg{width:18px;height:18px;stroke:var(--b-primary-ink);fill:none;stroke-width:2.2;stroke-linecap:round}
+.s-ring{width:196px;height:196px;border-radius:50%;margin:30px auto 0;display:grid;place-items:center;border:4px solid var(--tier);box-shadow:0 0 44px 6px color-mix(in srgb,var(--tier) 42%,transparent),inset 0 0 30px color-mix(in srgb,var(--tier) 22%,transparent);background:radial-gradient(circle,rgba(255,255,255,.07),rgba(255,255,255,0) 70%)}
+.s-ring img{width:120px;height:auto}
+.s-rkl{text-align:center;margin-top:28px;font:600 12.5px var(--b-font);letter-spacing:2px;color:var(--b-ink2);text-transform:uppercase}
+.s-rkn{text-align:center;font:800 46px/1 var(--b-font);letter-spacing:.5px;color:var(--tier);text-shadow:0 0 22px color-mix(in srgb,var(--tier) 55%,transparent);margin-top:8px}
+.s-rkt{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:10px;font:600 17px var(--b-font);letter-spacing:.5px}
+.s-rkt img{height:30px}
+.s-rks{display:flex;justify-content:center;gap:40px;margin-top:22px}
+.s-rks small{display:block;font:500 11.5px var(--b-font);letter-spacing:1.3px;color:var(--b-ink2)}
+.s-rks b{display:block;font:700 21px var(--b-font);margin-top:3px}
+.s-next{display:flex;align-items:center;gap:12px;margin-top:22px;background:var(--b-card);border-radius:14px;padding:10px 14px}
+.s-next img{width:38px;height:38px;object-fit:contain;flex:none}
+.s-next p{margin:0;font:400 13.5px/1.4 var(--b-font);color:var(--b-ink2)}
+.s-next b{color:var(--b-ink);font-weight:700}
+
+/* plan — their "Your custom plan is ready!" */
+.s-ph{font:700 24px/1.3 var(--b-font);text-align:center;margin:6px 0 0;letter-spacing:.3px}
+.s-by{font:400 16px var(--b-font);text-align:center;margin:12px 0 0;letter-spacing:.3px}
+.s-date{align-self:center;margin-top:10px;padding:11px 26px;border-radius:26px;background:var(--b-card);border:1px solid var(--b-surface);font:700 17px var(--b-font);letter-spacing:.3px}
+.s-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.s-chips div{background:var(--b-card);border-radius:14px;padding:10px 4px;text-align:center}
+.s-chips b{display:block;font:700 15px var(--b-font)}
+.s-chips span{display:block;font:400 11.5px var(--b-font);color:var(--b-ink2);margin-top:2px}
+.s-ben{display:flex;flex-direction:column;gap:12px;margin-top:16px;padding:0 6px}
+.s-ben div{display:flex;align-items:center;gap:12px;font:400 14.5px var(--b-font);letter-spacing:.2px}
+.s-ben img{width:26px;height:26px;object-fit:contain;flex:none}
+.s-ben b{font-weight:700}
+.s-cap{font:400 15px var(--b-font);text-align:center;margin:16px 0 2px;letter-spacing:.3px}
+.s-chart{width:100%;height:118px;display:block}
+.s-c-b{stroke:var(--b-chart);stroke-width:3;fill:none;stroke-linecap:round}
+.s-c-r{stroke:var(--b-red);stroke-width:3;fill:none;stroke-linecap:round}
+.s-c-d{stroke:var(--b-red);stroke-width:1.2;stroke-dasharray:5 5;fill:none;opacity:.8}
+.s-c-f{fill:var(--b-navy);opacity:.55}
+.s-c-bd{fill:var(--b-chart)}
+.s-c-rd{fill:var(--b-red)}
+.s-c-sd{fill:var(--b-red2)}
+.s-c-tb{fill:var(--b-chart);font:700 11px var(--b-font)}
+.s-c-tr{fill:var(--b-red);font:700 11px var(--b-font)}
+
+/* paywall — their trial paywall, moved to the onboarding placement */
+.s-pw{background:var(--b-grad)}
+.s-pw::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(1.6px 1.6px at 14% 24%,rgba(255,255,255,.4),transparent 70%),radial-gradient(1.4px 1.4px at 80% 11%,rgba(255,255,255,.35),transparent 70%),
+  radial-gradient(1.8px 1.8px at 90% 38%,rgba(255,255,255,.3),transparent 70%),radial-gradient(1.3px 1.3px at 6% 46%,rgba(255,255,255,.3),transparent 70%),
+  radial-gradient(1.5px 1.5px at 66% 56%,rgba(255,255,255,.28),transparent 70%),radial-gradient(1.2px 1.2px at 30% 60%,rgba(255,255,255,.25),transparent 70%)}
+.s-x{position:absolute;top:54px;left:14px;z-index:3;background:none;border:0;color:var(--b-ink2);padding:6px;cursor:pointer}
+.s-x svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round}
+.s-pwh{font:700 23.5px/1.26 var(--b-font);text-align:center;margin:34px 4px 0;letter-spacing:-.2px}
+.s-rate{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:9px;font:500 13px var(--b-font);color:var(--b-ink2)}
+.s-rate i{font-style:normal;color:var(--b-t-gold);letter-spacing:1px}
+.s-tl{position:relative;margin:20px 4px 0 12px;display:flex;flex-direction:column;gap:13px}
+.s-tl::before{content:"";position:absolute;left:19px;top:22px;bottom:18px;width:8px;margin-left:-4px;background:linear-gradient(var(--b-navy-line),rgba(255,255,255,0));border-radius:4px}
+.s-tli{position:relative;display:grid;grid-template-columns:38px 1fr;gap:14px;align-items:start}
+.s-dot{width:38px;height:38px;border-radius:50%;background:var(--b-accent);display:grid;place-items:center;position:relative;z-index:1}
+.s-dot svg{width:19px;height:19px;stroke:var(--b-ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.s-tli b{display:block;font:700 16px var(--b-font);margin-top:1px}
+.s-tli span{display:block;font:400 13.5px/1.36 var(--b-font);color:rgba(255,255,255,.72);margin-top:3px}
+.s-tli span span{display:inline;margin:0;color:inherit}
+.s-plans{margin-top:auto;display:flex;flex-direction:column;gap:11px}
+.s-yr{border:2px solid var(--b-line);border-radius:16px;overflow:hidden;background:var(--b-card);cursor:pointer;padding:0;text-align:left;color:var(--b-ink);font-family:var(--b-font);width:100%}
+.s-save{display:block;background:var(--b-accent2);color:var(--b-ink);font:700 14px var(--b-font);text-align:center;padding:4px 0;letter-spacing:.6px}
+.s-in{display:flex;justify-content:space-between;align-items:center;padding:11px 16px}
+.s-yr.on{border-color:var(--b-accent2)}
+.s-yr.on .s-in{background:var(--b-sel);color:var(--b-primary-ink)}
+.s-pn{font:700 21px var(--b-font)}
+.s-pd{display:block;font:500 12.5px var(--b-font);margin-top:2px;opacity:.72}
+.s-pp{font:700 17px var(--b-font)}
+.s-mo{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--b-line);border-radius:16px;background:var(--b-card);padding:13px 16px;cursor:pointer;color:var(--b-ink2);font-family:var(--b-font);width:100%;text-align:left}
+.s-mo.on{border-color:var(--b-accent2);color:var(--b-ink)}
+.s-mo .s-pn{font-weight:500}
+.s-trust{display:flex;justify-content:center;align-items:center;gap:8px;margin:12px 0 10px;font:400 14.5px var(--b-font);letter-spacing:.2px}
+.s-trust svg{width:17px;height:17px;stroke:var(--b-ink);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.s-trust .s-sh-ic{stroke:var(--b-accent);fill:var(--b-navy-edge)}
+.s-fine{font:400 12.5px var(--b-font);color:var(--b-ink2);text-align:center;margin-top:9px}
+
+/* offer on close — their bottom-sheet modal, one sheet instead of three screens */
+.scr.s-under{transform:none!important;z-index:1}
+.s-sheet{background:rgba(0,0,0,.55);justify-content:flex-end}
+.s-sh{background:var(--b-ink);color:var(--b-primary-ink);border-radius:22px 22px 0 0;padding:10px 16px 26px;position:relative;z-index:1}
+.s-grab{width:38px;height:5px;border-radius:3px;background:rgba(0,0,0,.14);margin:0 auto 16px}
+.s-sh h3{font:700 19px/1.3 var(--b-font);text-align:center;margin:0}
+.s-sh p{font:400 14px/1.45 var(--b-font);text-align:center;margin:6px 10px 0;color:rgba(0,0,0,.6)}
+.s-oc{border:1px solid rgba(0,0,0,.14);border-radius:14px;margin-top:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center}
+.s-oc small{display:block;font:700 11px var(--b-font);letter-spacing:.9px;color:var(--b-accent);text-transform:uppercase}
+.s-oc b{display:block;font:700 18px var(--b-font);margin-top:3px}
+.s-oc span{display:block;font:400 13px var(--b-font);color:rgba(0,0,0,.55);margin-top:2px}
+.s-oc em{font:700 19px var(--b-font);font-style:normal;white-space:nowrap;margin-left:10px}
+.s-sh .s-link{color:rgba(0,0,0,.75);font-weight:400;padding:14px 0 4px}
+.s-blue{width:100%;height:54px;border:0;border-radius:14px;margin-top:8px;background:linear-gradient(90deg,var(--b-accent2),var(--b-navy-edge) 62%,var(--b-navy2));color:var(--b-ink);font:500 18px var(--b-font);cursor:pointer;letter-spacing:.2px}
+.s-legal2{font:400 11.5px var(--b-font);color:rgba(0,0,0,.45);text-align:center;margin-top:10px}
+
+/* after purchase — their notification warm-up, moved behind the paywall */
+.s-done{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;font:600 13.5px var(--b-font);color:var(--b-ink2);letter-spacing:.2px}
+.s-done svg{width:16px;height:16px;stroke:var(--b-t-emerald);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.s-lockw{position:relative;margin:26px 0 0;height:310px}
+.s-lock{position:absolute;inset:0 30px;border:2px solid var(--b-surface);border-bottom:0;border-radius:42px 42px 0 0;display:flex;justify-content:center;padding-top:34px;-webkit-mask:linear-gradient(#000 45%,transparent 92%);mask:linear-gradient(#000 45%,transparent 92%)}
+.s-lock b{font:700 64px var(--b-font);color:var(--b-surface);letter-spacing:1px}
+.s-notif{position:absolute;left:4px;right:4px;top:148px;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;background:var(--b-surface);border-radius:18px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.s-notif img{width:44px;height:44px;border-radius:11px}
+.s-notif small{display:block;font:400 12.5px var(--b-font);color:var(--b-ink2)}
+.s-notif b{display:block;font:600 15px var(--b-font);margin-top:2px}
+.s-notif span{display:block;font:400 13px var(--b-font);color:var(--b-ink2);margin-top:1px}
+.s-notif em{font:400 12px var(--b-font);font-style:normal;color:var(--b-ink2);align-self:start}
+.s-nt{font:700 21px/1.4 var(--b-font);text-align:center;margin:6px 8px 0;letter-spacing:.6px}
+.s-ns{font:500 13.5px/1.45 var(--b-font);text-align:center;color:var(--b-ink2);margin:10px 10px 0;letter-spacing:.3px}
+.s-wid{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;justify-content:center;margin-top:16px;font:500 12.5px var(--b-font);color:var(--b-ink2);text-align:center}
+.s-wid b{white-space:nowrap;border:1px solid var(--b-navy-edge);background:var(--b-navy3);color:var(--b-ink);border-radius:9px;padding:5px 9px;font:700 12px var(--b-font);letter-spacing:.4px}
+/* their paywall TODAY (355015), for the side-by-side */
+.s-tdh{font:600 25px var(--b-font);text-align:center;margin:44px 0 0;letter-spacing:.1px}
+.s-tcard{margin-top:26px;background:var(--b-card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px 16px 18px}
+.s-tq{display:flex;gap:12px;align-items:center}
+.s-tav{width:44px;height:44px;border-radius:50%;flex:none}
+.s-tq b{display:block;font:700 13.5px/1.3 var(--b-font)}
+.s-tq i{display:block;font-style:normal;color:var(--b-t-gold);font-size:15px;letter-spacing:1px;margin-top:2px}
+.s-tby{display:flex;align-items:center;gap:5px;margin:10px 0 0;font:400 13px var(--b-font);color:var(--b-ink2)}
+.s-tby span{color:var(--b-accent)}
+.s-tby img{width:16px;height:16px;border-radius:50%}
+.s-ttx{margin:8px 0 0;font:400 14.5px/1.4 var(--b-font);color:var(--b-ink)}
+.s-strike{opacity:1;font-weight:600}
+.s-strike s{opacity:.9}
+.s-today .s-yr,.s-today .s-mo{cursor:default}
+/* SCREENS:END */
+</style>
+</head>
+<body>
+
+<nav class="au-nav" aria-label="Sections">
+  <div class="au-nav-in">
+    <div class="au-brand">
+      <img src="assets/brand/appstore-icon.jpg" alt="">
+      <span>Growth Audit <small>· Symmetry</small></span>
+    </div>
+    <a class="au-opt" href="#why">Why this</a>
+    <a href="#ideas">Five ideas</a>
+    <a href="#prototype">Prototype</a>
+    <a class="au-opt" href="#compare">Paywall</a>
+  </div>
+</nav>
+
+<header class="au-top-hero" id="top">
+  <div class="au-wrap">
+    <p class="au-eyebrow"><i></i>Growth Audit · September 2026</p>
+    <h1 class="au-display">Symmetry</h1>
+    <p class="au-lede">Five ideas to turn more lifters into subscribers. <span>Each one built into your own onboarding, so you can tap through it.</span></p>
+    <p class="au-byline">Prepared by Adapty for the Symmetry team</p>
+    <div class="au-ctas">
+      <a class="au-btn" href="#ideas">See the five ideas</a>
+      <a class="au-lnk" href="#prototype">Open the prototype</a>
+      <button type="button" class="au-lnk au-play" data-video>Watch the 30-second walkthrough</button>
+    </div>
+  </div>
+  <!-- filled from CONTENT.hero: three screen ids → assets/hero/<id>.png (make them with hero-stills.sh) -->
+  <div class="au-phones" id="heroPhones" aria-label="Three screens from the prototype"></div>
+</header>
+
+<section class="au-sec au-white" id="why">
+  <div class="au-wrap">
+    <div class="au-split">
+      <div>
+        <p class="au-kicker">Why you’re seeing this</p>
+        <h2 class="au-h2">30,000 subscription apps taught us what moves conversion. <span>Here’s what we’d test first at Symmetry.</span></h2>
+      </div>
+      <div>
+        <p>Adapty runs subscriptions for <b>more than 30,000 apps</b>, so we see which onboarding and paywall changes lift revenue across the whole market, not just inside one app.</p>
+        <p>We pointed that at Symmetry. We took <b>your own screens, copy and prices</b> from your live iOS flow and App Store listing, and rebuilt the path from install to paywall around the five ideas with the most potential.</p>
+      </div>
+    </div>
+    <div class="au-stats">
+      <div class="au-stat"><b>30,000+</b><span>apps run their subscriptions on Adapty</span></div>
+      <div class="au-stat"><b>5</b><span>ideas, each built as a working screen</span></div>
+      <div class="au-stat"><b>0</b><span>changes to your art direction</span></div>
+    </div>
+    <div class="au-notes">
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></div>
+        <h3>Five ideas, not fifteen</h3>
+        <p>We’re not proposing to rebuild every screen. These are the changes with the highest potential, ranked by what we’d test first.</p>
+      </div>
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/></svg></div>
+        <h3>Your design, not ours</h3>
+        <p>Every colour, control and price in the prototype is Symmetry’s. We changed the order and what gets shown.</p>
+      </div>
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13A1.5 1.5 0 0 1 5.5 4H15"/></svg></div>
+        <h3>We hope you haven’t tried these yet</h3>
+        <p>We work from the outside, so we can’t see your test history. If you’ve already run one of these, tell us and we’ll go deeper on the rest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="au-sec" id="ideas">
+  <div class="au-wrap">
+    <div class="au-ideas-h">
+      <p class="au-kicker">The shortlist</p>
+      <h2 class="au-h2">Five ideas. <span>Ranked by what we’d test first.</span></h2>
+    </div>
+    <div class="au-list" id="ideaList"></div>
+    <div class="au-band">
+      <div>
+        <p class="au-k">Potential outcome, based on Adapty data</p>
+        <h3>Together they work on three moments: what you ask, what you show before the price, and what happens when someone says no.</h3>
+        <p class="au-fn" id="bandFn"></p>
+        <a class="au-btn" href="#prototype">Tap through the prototype</a>
+      </div>
+      <div class="au-nums" id="bandNums"></div>
+    </div>
+  </div>
+</section>
+
+<section class="au-sec au-white" id="prototype">
+  <div class="au-wrap">
+    <div class="au-proto-h">
+      <p class="au-kicker">The prototype</p>
+      <h2 class="au-h2">Every idea, inside your own onboarding.</h2>
+      <p>Tap through it like a new user, or jump straight to an idea. Blue numbers mark the screens that carry one.</p>
+    </div>
+    <div class="au-langrow"><span>Prototype language</span><div class="au-lsw" role="group" aria-label="Prototype language"><button type="button" data-setlang="en">English</button><button type="button" data-setlang="es">Español · Spain prices</button></div></div>
+    <div class="au-seg" id="chips" role="tablist" aria-label="Screens"></div>
+    <div class="au-stage">
+      <div class="phone"><div class="phone-in">
+        <div class="island"></div>
+        <div class="sbar"><span>9:41</span><span>●●● ▮</span></div>
+
+<!-- SCREENS:START — Symmetry's own screens (ScreensDesign replay 4013), in flow order. data-t = translatable (EN here, ES in the hooks). -->
+
+<section class="scr s-welcome" data-id="welcome">
+  <button class="s-lang" data-langtoggle aria-label="Language" data-t="w_lang">🇺🇸 EN <span style="font-size:9px">▼</span></button>
+  <div class="s-pad">
+    <img class="s-word" src="assets/crop/wordmark.png" alt="Symmetry">
+    <div class="s-laurels">
+      <div class="s-lau"><img class="s-lf" src="assets/crop/laurel-l.png" alt=""><div><b data-t="w_s1">2 Million+</b><span data-t="w_s1b">athletes use Symmetry</span></div><img class="s-lf" src="assets/crop/laurel-r.png" alt=""></div>
+      <div class="s-lau"><img class="s-lf" src="assets/crop/laurel-l.png" alt=""><div><b data-t="w_s2">25 Million+</b><span data-t="w_s2b">workouts logged</span></div><img class="s-lf" src="assets/crop/laurel-r.png" alt=""></div>
+      <div class="s-lau"><img class="s-lf" src="assets/crop/laurel-l.png" alt=""><div><b data-t="w_s3">+100,000</b><img class="s-stars" src="assets/crop/stars.png" alt="five stars"><span data-t="w_s3b">5-Star Reviews</span></div><img class="s-lf" src="assets/crop/laurel-r.png" alt=""></div>
+    </div>
+    <h1 class="s-hl" data-t="w_hl">Get your dream physique</h1>
+    <button class="s-cta" style="margin-top:0" data-go="goal" data-t="w_cta">Get started</button>
+    <p class="s-login" data-t="w_login">Already have an account? <b>Log in</b></p>
+  </div>
+</section>
+
+<section class="scr" data-id="goal">
+  <div class="s-pad">
+    <div class="s-top"><button class="s-bk" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><div class="s-bar"><i style="width:22%"></i></div></div>
+    <div class="s-gh"><svg viewBox="0 0 24 24"><circle cx="11" cy="13" r="8.5"/><circle cx="11" cy="13" r="4.5"/><path d="M11 13l8.5-8.5M16.5 4.5V7.5h3"/></svg><h2 data-t="g_h">Choose your objective</h2></div>
+    <div class="s-echo"><svg viewBox="0 0 24 24"><path d="M4.5 4.5L20 12 4.5 19.5 7.5 12z"/></svg><span data-bind="label:goal"></span></div>
+    <div class="s-tiles">
+      <button class="s-tile" data-pick="goal:muscle"><span data-t="g_muscle">Gain<br>muscle</span><img src="assets/crop/goal-muscle.png" alt=""></button>
+      <button class="s-tile" data-pick="goal:strength"><span data-t="g_strength">Gain<br>strength</span><img src="assets/crop/goal-strength.png" alt=""></button>
+      <button class="s-tile" data-pick="goal:fat"><span data-t="g_fat">Lose<br>fat</span><img src="assets/crop/goal-fat.png" alt=""></button>
+      <button class="s-tile s-wide" data-pick="goal:func"><span data-t="g_func">Improve<br>functionality</span><img src="assets/crop/goal-func.png" alt=""></button>
+    </div>
+    <button class="s-cta s-lc" data-go="days" data-t="continue">Continue</button>
+  </div>
+</section>
+
+<section class="scr" data-id="days">
+  <div class="s-pad">
+    <div class="s-top"><button class="s-bk" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><div class="s-bar"><i style="width:66%"></i></div></div>
+    <h1 class="s-ttl" data-t="d_q">How many times a week do you want to work out?</h1>
+    <div class="s-seg"><span class="on" data-t="d_seg1">Days per week</span><span data-t="d_seg2">Specific days</span></div>
+    <div class="s-rows">
+      <button class="s-row" data-pick="days:1"><span data-t="d_1">1 day / week</span><em data-t="d_1h">It's a start</em></button>
+      <button class="s-row" data-pick="days:2"><span data-t="d_2">2 days / week</span><em data-t="d_2h">Solid</em></button>
+      <button class="s-row" data-pick="days:3"><span data-t="d_3">3 days / week</span><em data-t="d_3h">Consistent</em></button>
+      <button class="s-row" data-pick="days:4"><span data-t="d_4">4 days / week</span><em data-t="d_4h">Committed</em></button>
+      <button class="s-row" data-pick="days:5"><span data-t="d_5">5 days / week</span><em data-t="d_5h">Incredible</em></button>
+      <button class="s-row" data-pick="days:6"><span data-t="d_6">6 days / week</span><em data-t="d_6h">No excuses</em></button>
+      <button class="s-row" data-pick="days:7"><span data-t="d_7">Every day</span><em data-t="d_7h">Unstoppable</em></button>
+    </div>
+    <button class="s-cta" data-go="lift" data-t="continue">Continue</button>
+  </div>
+</section>
+
+<section class="scr" data-id="lift">
+  <div class="s-pad">
+    <div class="s-top"><button class="s-bk" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><div class="s-bar"><i style="width:78%"></i></div></div>
+    <h1 class="s-ttl" data-t="l_q">Where do you rank right now?</h1>
+    <p class="s-sub" data-t="l_sub">Log one recent set you're sure of. Your bodyweight is used to calculate your ranks.</p>
+    <div class="s-ex">
+      <button data-pick="lift:bench" data-t="l_bench">Bench press</button>
+      <button data-pick="lift:squat" data-t="l_squat">Squat</button>
+      <button data-pick="lift:press" data-t="l_press">Military press</button>
+    </div>
+    <div class="s-log">
+      <h3 data-r="exname">Bench press</h3>
+      <div class="s-lh"><span data-t="l_set">Set</span><span>KG</span><span data-t="l_reps">Reps</span></div>
+      <div class="s-lr"><b>1</b>
+        <div class="s-step"><button data-step="kg:-2.5" aria-label="Less weight">−</button><b data-r="kg">62.5</b><button data-step="kg:2.5" aria-label="More weight">+</button></div>
+        <div class="s-step"><button data-step="reps:-1" aria-label="Fewer reps">−</button><b data-r="reps">10</b><button data-step="reps:1" aria-label="More reps">+</button></div>
+      </div>
+    </div>
+    <div class="s-bw"><div><span data-t="l_bw">Bodyweight</span><small data-t="l_bwsub">From your answers</small></div>
+      <div class="s-step"><button data-step="bw:-1" aria-label="Less">−</button><b data-r="bwkg">75 kg</b><button data-step="bw:1" aria-label="More">+</button></div>
+    </div>
+    <button class="s-link" style="margin-top:auto" data-go="plan" data-t="l_skip">Skip</button>
+    <button class="s-cta" style="margin-top:0" data-go="rank" data-t="l_cta">See my rank</button>
+  </div>
+</section>
+
+<section class="scr s-rank" data-id="rank" style="--tier:var(--b-t-gold)">
+  <div class="s-pad">
+    <div class="s-segs"><i></i></div>
+    <div class="s-rkx"><span><svg viewBox="0 0 24 24"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></span><em data-r="exup">Bench press</em></div>
+    <div class="s-ring"><img data-r="badge" src="assets/crop/rank-gold.png" alt=""></div>
+    <div class="s-rkl" data-t="r_lab">⌃ Your starting rank</div>
+    <div class="s-rkn" data-r="name">GOLD II</div>
+    <div class="s-rkt"><img src="assets/crop/laurel-l.png" alt=""><span data-r="top">TOP 40%</span><img src="assets/crop/laurel-r.png" alt=""></div>
+    <div class="s-rks"><div><small data-t="r_best">BEST SET</small><b data-r="set">62.5 kg x 10</b></div><div><small data-t="r_orm">EST. 1RM</small><b data-r="orm">83 KG</b></div></div>
+    <div class="s-next"><img data-r="nextimg" src="assets/crop/rank-ruby.png" alt=""><p data-t="r_next">Next: <b data-r="next">RUBY · top 31%</b>. Symmetry tells you exactly when to add weight to get there.</p></div>
+    <button class="s-cta" data-go="plan" data-t="continue">Continue</button>
+  </div>
+</section>
+
+<section class="scr" data-id="plan">
+  <div class="s-pad">
+    <h1 class="s-ph" data-t="p_h">Congratulations!<br>Your <span data-g="w">muscle</span> plan is ready!</h1>
+    <p class="s-by" data-g="by">Build muscle by:</p>
+    <div class="s-date" data-date="goal">November 25, 2026</div>
+    <div class="s-chips">
+      <div><b data-d="n">3 days</b><span data-t="p_perweek">per week</span></div>
+      <div><b data-r="short">Gold II</b><span data-r="exlow">bench rank</span></div>
+      <div><b data-g="chip">Muscle</b><span data-t="p_focus">focus</span></div>
+    </div>
+    <div class="s-ben">
+      <div><img src="assets/crop/plan-ic1.png" alt=""><span data-g="ben">You'll maximize <b>muscle gain</b></span></div>
+      <div><img src="assets/crop/plan-ic2.png" alt=""><span data-t="p_b2">You'll gain <b>so much confidence</b> in yourself</span></div>
+      <div><img src="assets/crop/plan-ic3.png" alt=""><span data-t="p_b3">You'll have fun training with <b>ranks</b></span></div>
+    </div>
+    <p class="s-cap" data-t="p_cap">Discover what you're capable of</p>
+    <svg class="s-chart" viewBox="0 0 330 118" preserveAspectRatio="none" aria-hidden="true">
+      <path class="s-c-f" d="M14 92 C40 62 70 60 96 74 S132 86 160 54 S212 22 244 30 S292 28 316 10 L316 118 L14 118 Z"/>
+      <line class="s-c-d" x1="8" y1="72" x2="322" y2="72"/>
+      <text class="s-c-tr" x="10" y="64" data-t="c_plateau">Plateau</text>
+      <path class="s-c-r" d="M14 92 C40 62 70 62 96 84 S132 108 160 90 S212 70 244 73 S292 70 316 74"/>
+      <path class="s-c-b" d="M14 92 C40 62 70 60 96 74 S132 86 160 54 S212 22 244 30 S292 28 316 10"/>
+      <text class="s-c-tb" x="306" y="52" text-anchor="end" data-t="c_with">With Symmetry</text>
+      <text class="s-c-tr" x="306" y="96" text-anchor="end" data-t="c_without">Without Symmetry</text>
+      <circle class="s-c-bd" cx="316" cy="10" r="7"/><circle class="s-c-rd" cx="316" cy="74" r="7"/><circle class="s-c-sd" cx="14" cy="92" r="8"/>
+    </svg>
+    <button class="s-cta" data-go="paywall" data-t="continue">Continue</button>
+  </div>
+</section>
+
+<section class="scr s-pw" data-id="paywall">
+  <button class="s-x" data-go="offer" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="s-pad">
+    <h1 class="s-pwh" data-g="hl">Start gaining muscle today with your FREE 7‑day trial</h1>
+    <div class="s-rate" data-t="pw_rate"><i>★★★★★</i> 4.8 from 6,154 App Store ratings</div>
+    <div class="s-tl">
+      <div class="s-tli"><div class="s-dot"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 6.6-1.6"/><path d="M12 15v2.2"/></svg></div><div><b data-t="pw_today">Today</b><span data-t="pw_todayb">Get instant access to your <span data-d="adj">3-day</span> <span data-g="w">muscle</span> plan and see how it changes your life</span></div></div>
+      <div class="s-tli"><div class="s-dot"><svg viewBox="0 0 24 24"><path d="M6.5 16.5h11l-1.3-1.8V11a4.2 4.2 0 0 0-8.4 0v3.7z"/><path d="M10.2 19.5h3.6M3.8 9a8 8 0 0 1 2.4-4M20.2 9a8 8 0 0 0-2.4-4"/></svg></div><div><b data-t="pw_rem">In 4 Days – Reminder</b><span data-t="pw_remb">We'll send you a reminder that your trial is ending soon.</span></div></div>
+      <div class="s-tli"><div class="s-dot"><svg viewBox="0 0 24 24"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 16.4l-4.8 2.5.9-5.4-3.9-3.8 5.4-.8z"/></svg></div><div><b data-t="pw_bill">In 7 Days – Billing Starts</b><span data-t="pw_billb">You'll be charged on <span data-date="bill">Oct 2, 2026</span> unless you cancel anytime before.</span></div></div>
+    </div>
+    <div class="s-plans">
+      <button class="s-yr" data-pick="plan:year"><span class="s-save" data-t="pw_save">Save 72%</span><span class="s-in"><span><span class="s-pn" data-t="pw_yr">Yearly</span><span class="s-pd" data-t="pw_yrd">7 days free, then $49.99 / year</span></span><span class="s-pp" data-t="pw_yrm">$4.16 / month</span></span></button>
+      <button class="s-mo" data-pick="plan:month"><span class="s-pn" data-t="pw_mo">Monthly</span><span class="s-pp" data-t="pw_mom">$14.99 / month</span></button>
+    </div>
+    <div class="s-trust" data-show="plan:year"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span data-t="pw_nopay">No Payment Due Now</span></div>
+    <div class="s-trust" data-show="plan:month"><svg class="s-sh-ic" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/></svg><span data-t="pw_nocommit">No commitment, cancel anytime</span></div>
+    <button class="s-cta s-bold" style="margin-top:0" data-show="plan:year" data-go="setup" data-t="pw_cta">Start my 7 day-free trial</button>
+    <button class="s-cta s-bold s-lc" style="margin-top:0" data-show="plan:month" data-go="setup" data-t="continue">Continue</button>
+    <p class="s-fine" data-show="plan:year" data-t="pw_fine">Free access for 7 days, then $49.99/year</p>
+    <p class="s-fine" data-show="plan:month" data-t="pw_finem">$14.99 billed every month. Cancel anytime.</p>
+  </div>
+</section>
+
+<section class="scr sheet s-sheet" data-id="offer">
+  <div class="s-sh">
+    <div class="s-grab"></div>
+    <h3 data-t="o_h">Keep your <span data-d="adj">3-day</span> <span data-g="w">muscle</span> plan</h3>
+    <p data-t="o_p">Not ready for $49.99? Get the full year for $34.99 instead.</p>
+    <div class="s-oc"><div><small data-t="o_k">Welcome offer</small><b data-t="o_b">Yearly · $34.99</b><span data-t="o_s">12 Mo • 30% less than $49.99</span></div><em data-t="o_m">$2.91/month</em></div>
+    <button class="s-link" data-go="setup" data-t="o_skip">Continue without custom plan</button>
+    <button class="s-blue" data-go="setup" data-t="o_cta">Unlock custom plan</button>
+    <p class="s-legal2" data-t="o_legal">Billed $34.99 for the first year. Cancel anytime.</p>
+  </div>
+</section>
+
+<section class="scr" data-id="setup">
+  <div class="s-pad">
+    <div class="s-done"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span data-t="s_done">You have obtained Symmetry PRO</span></div>
+    <div class="s-lockw">
+      <div class="s-lock"><b>9:41</b></div>
+      <div class="s-notif"><img src="assets/brand/logo.png" alt=""><div><small>Symmetry</small><b data-t="s_n1">Time to train today!</b><span data-t="s_n2">Back and Biceps: 45m-60m</span></div><em data-t="s_ago">2h ago</em></div>
+    </div>
+    <h1 class="s-nt" data-t="s_t">Enable notifications to stay focused on your goals</h1>
+    <p class="s-ns" data-t="s_s">You are 2 times more likely to achieve your goals with reminders</p>
+    <div class="s-wid" data-t="s_w">Next: <b>56 DAYS · GREAT WORKOUT!</b> streak widget</div>
+    <button class="s-link" style="margin-top:auto" data-t="s_not">Not now</button>
+    <button class="s-cta" style="margin-top:0" data-t="continue">Continue</button>
+  </div>
+</section>
+
+<!-- their onboarding paywall TODAY (355015), rebuilt word for word for the side-by-side; not part of the flow -->
+<section class="scr s-pw s-today" data-id="today">
+  <button class="s-x" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="s-pad">
+    <h1 class="s-tdh">Choose your plan</h1>
+    <div class="s-tcard">
+      <div class="s-tq"><img class="s-tav" src="assets/crop/today-avatar.png" alt=""><div><b>I've achieved my physical transformation!</b><i>★★★★★</i></div></div>
+      <p class="s-tby">Marc Fontanals · <span>Symmetrical</span><img src="assets/crop/today-verified.png" alt=""></p>
+      <p class="s-ttx">I couldn't be happier with my personalized plan. I'm super motivated and training on autopilot. Super awesome!!</p>
+    </div>
+    <div class="s-plans">
+      <div class="s-yr on"><span class="s-save">Save 72%</span><span class="s-in"><span><span class="s-pn">Yearly</span><span class="s-pd s-strike"><s>$179.88</s>→$49.99</span></span><span class="s-pp">$4.16 / month</span></span></div>
+      <div class="s-mo"><span class="s-pn">Monthly</span><span class="s-pp">$14.99 / month</span></div>
+    </div>
+    <div class="s-trust"><svg class="s-sh-ic" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/></svg>No commitment, cancel anytime</div>
+    <button class="s-cta s-lc" style="margin-top:0;background:var(--b-primary)">Continue</button>
+  </div>
+</section>
+<!-- SCREENS:END -->
+
+      </div></div>
+      <div class="au-pn" id="panel" aria-live="polite"></div>
+    </div>
+    <p class="au-hint">Close the paywall with ✕ to see idea 5. Change the set on “Best set” to see a different rank.</p>
+    <div class="au-qr"><img src="assets/qr-app.png" alt="QR code that opens the prototype full screen"><div><b>Try it on your phone</b><p>Scan to open the prototype full screen, the way a new user would see it.</p></div></div>
+    <div class="au-mobw"><a class="au-btn" href="?app">Open it full screen</a></div>
+  </div>
+</section>
+
+<section class="au-sec" id="compare">
+  <div class="au-wrap">
+    <div class="au-ideas-h">
+      <p class="au-kicker">The paywall, side by side</p>
+      <h2 class="au-h2">Today and proposed. <span>Same components and prices, a different job.</span></h2>
+    </div>
+    <div class="au-cmp">
+      <figure><img src="assets/hero/today.png" alt="Symmetry's onboarding paywall today"><figcaption>Today <span>· rebuilt from your recording</span></figcaption></figure>
+      <ol class="au-chg">
+        <li><h4>Headline <i>Idea 1</i></h4><span class="au-was"><em>Today</em>“Choose your plan”</span><span class="au-now"><em>Proposed</em>Names their goal: “Start gaining muscle today with your FREE 7‑day trial”</span></li>
+        <li><h4>Trial <i>Idea 2</i></h4><span class="au-was"><em>Today</em>Not mentioned</span><span class="au-now"><em>Proposed</em>Your own timeline: today, a reminder on day 4, billing on day 7</span></li>
+        <li><h4>Proof</h4><span class="au-was"><em>Today</em>One testimonial</span><span class="au-now"><em>Proposed</em>4.8 ★ from 6,154 App Store ratings</span></li>
+        <li><h4>Button <i>Idea 2</i></h4><span class="au-was"><em>Today</em>“Continue”</span><span class="au-now"><em>Proposed</em>“Start my 7 day-free trial”, above “No Payment Due Now”</span></li>
+        <li><h4>When they close it <i>Idea 5</i></h4><span class="au-was"><em>Today</em>“You will lose your plan”, a gift, then a countdown</span><span class="au-now"><em>Proposed</em>One sheet: $34.99 for the year, 30% less</span></li>
+      </ol>
+      <figure><button type="button" class="au-cmp-go" data-jumpto="paywall" aria-label="Open the proposed paywall in the prototype"><img src="assets/hero/paywall.png" alt="The proposed paywall"></button><figcaption>Proposed <span>· tap to try it</span></figcaption></figure>
+    </div>
+    <p class="au-kept">Kept as is: the yearly card first, ‘Save 72%’, $4.16 / month and the $14.99 monthly plan.</p>
+  </div>
+</section>
+
+<footer class="au-foot" id="sources">
+  <div class="au-wrap">
+    <details id="srcDetails">
+      <summary>Where the numbers come from</summary>
+      <div class="au-srcs" id="srcBody"></div>
+    </details>
+    <p class="au-fine" id="fine"></p>
+    <div class="au-cta-line">
+      <p>Every screen here can be built and A/B tested in Adapty’s Flow Builder, with no app release.</p>
+      <a class="au-btn" href="https://adapty.io/flow-paywall-builder/" target="_blank" rel="noopener">About Flow Builder</a>
+    </div>
+  </div>
+</footer>
+
+<!-- v2 extras: video dialog, ?app bar, ?tour overlay -->
+<dialog class="au-vid" id="vid" aria-label="30-second walkthrough">
+  <div class="au-vid-in"><video id="vidEl" src="assets/walkthrough.mp4" poster="assets/walkthrough-poster.jpg" controls muted playsinline preload="none"></video></div>
+  <div class="au-vid-bar"><a href="assets/walkthrough.mp4" download="symmetry-walkthrough.mp4">Download the MP4</a><button type="button" class="au-vid-x" id="vidX">Close</button></div>
+</dialog>
+<div class="au-scrim" id="abScrim"></div>
+<div class="au-appbar" id="appbar">
+  <button type="button" class="au-ab-why" id="abWhy"><i></i><span id="abT">Welcome</span><em>Why ↑</em></button>
+  <div class="au-lsw" role="group" aria-label="Language"><button type="button" data-setlang="en">EN</button><button type="button" data-setlang="es">ES</button></div>
+</div>
+<div class="au-tour" aria-hidden="true">
+  <div class="au-tb"><img src="assets/brand/appstore-icon.jpg" alt="">Growth Audit <small>· Symmetry</small></div>
+  <div class="au-tby">Prepared by Adapty</div>
+  <div class="au-tcap" id="tCap"></div>
+  <div class="au-ttap" id="tTap"></div>
+  <div class="au-tprog"><i id="tProg"></i></div>
+  <div class="au-tintro" id="tIntro"><p class="au-eyebrow"><i></i>Growth Audit · September 2026</p><h1 class="au-display">Symmetry</h1><p class="au-lede">Five ideas to turn more lifters into subscribers. <span>In 30 seconds.</span></p></div>
+  <div class="au-tend" id="tEnd">
+    <p class="au-eyebrow"><i></i>Growth Audit · Symmetry</p>
+    <h2 class="au-te-h">Five ideas, built into your own onboarding.</h2>
+    <div class="au-te-n"><div><small>up to</small><b>+20%</b><span>CR to purchase</span></div><div><small>up to</small><b>+10%</b><span>ARPU</span></div></div>
+    <div class="au-te-q"><img src="assets/qr-app.png" alt=""><div><b>Try it on your phone</b><span>eddieatadapty.github.io/symmetry-flow-rebuild-v2</span></div></div>
+    <p class="au-te-f">Expected effect from Adapty’s data across 30,000+ subscription apps, not measured lift. They overlap, so they don’t add up.</p>
+  </div>
+</div>
+
+<!-- CONTENT — all the audit's words and numbers, as data. Schema (brand-check enforces it):
+     ideas  : 3–5 rows, ranked (the audit is five ideas, never fifteen). screen = the screen that shows it.
+     panel  : one entry per screen. idea = its number in ideas (1-based) or 0 for a context screen.
+              why on an idea screen reads "<b>Try</b> X, <b>because</b> Y." in ≤ 45 words; iv = its range.
+              why on a context screen is one line saying what it sets up.
+     hero   : three screen ids shown as stills in the hero — run hero-stills.sh after the screens are done.
+     outcome: combined "up to" numbers, PS-deck style, never above the ceiling of the per-idea ranges.
+     sources: public facts only — App Store, their site, their screens. No sales research on this page. -->
+<script type="application/json" id="content">
+{
+  "app": "Symmetry",
+  "state": {
+    "goal": "muscle",
+    "days": "3",
+    "lift": "bench",
+    "kg": 62.5,
+    "reps": 10,
+    "bw": 75,
+    "plan": "year",
+    "lang": "en"
+  },
+  "labels": {
+    "goal": {
+      "muscle": "Gain muscle",
+      "strength": "Gain strength",
+      "fat": "Lose fat",
+      "func": "Improve functionality"
+    }
+  },
+  "chips": {
+    "welcome": "Welcome",
+    "goal": "Goal",
+    "days": "Days",
+    "lift": "Best set",
+    "rank": "Your rank",
+    "plan": "Your plan",
+    "paywall": "Paywall",
+    "offer": "Offer on close",
+    "setup": "After purchase",
+    "today": "Today"
+  },
+  "hero": [
+    "plan",
+    "paywall",
+    "rank"
+  ],
+  "outcome": {
+    "cr": "+20%",
+    "arpu": "+10%"
+  },
+  "ideas": [
+    {
+      "screen": "plan",
+      "title": "Ask what they’re training for, then say it back",
+      "what": "Onboarding asks about equipment, days, session length and injuries, but never the goal. Your ‘Choose your objective’ screen only shows up later, inside the app. Ask it up front, then let ‘Your custom plan is ready’ and the paywall headline name it (Gain muscle, Lose fat…) next to the 3 days a week they picked.",
+      "impact": "+10–20%",
+      "il": "CR to purchase"
+    },
+    {
+      "screen": "paywall",
+      "title": "Show the free week on the paywall most people see",
+      "what": "The paywall after onboarding offers $49.99 a year or $14.99 a month and never mentions a trial. Your 7-day free trial, with its Today → reminder on day 4 → billing on day 7 timeline, only appears after the first workout. Put that timeline on the onboarding paywall and keep the yearly card with its ‘Save 72%’.",
+      "impact": "+10–20%",
+      "il": "CR to trial or purchase"
+    },
+    {
+      "screen": "setup",
+      "title": "Clear the road to the paywall",
+      "what": "Right after the days-per-week question, users get a notification prompt and four widget how-to screens (press and hold, tap +, find us, add it). The same how-to runs again after the first workout. Ask for both just after the purchase, when there’s a real plan to be reminded about.",
+      "impact": "+10–15%",
+      "il": "CR to purchase"
+    },
+    {
+      "screen": "rank",
+      "title": "Give them their rank before the paywall",
+      "what": "‘Get your rank’ is the first line of your App Store screenshots, and onboarding already asks for bodyweight ‘to calculate your ranks’, yet nobody sees a rank until after the paywall. One set they know, like 62.5 kg × 10 on bench, is enough to show Gold II · top 40% and the tier above it.",
+      "impact": "+5–15%",
+      "il": "CR to purchase"
+    },
+    {
+      "screen": "offer",
+      "title": "One honest offer for people who close it",
+      "what": "Closing the paywall now takes three screens: ‘If you close this screen you will lose your plan’, a gift, then ‘80% OFF FOREVER’ with a countdown. That 80% is measured against twelve months of the $14.99 plan. Show one sheet instead: $34.99 for the year, 30% less than the $49.99 they just saw.",
+      "impact": "+5–10%",
+      "il": "ARPU"
+    }
+  ],
+  "panel": {
+    "welcome": {
+      "idea": 0,
+      "t": "Your welcome screen, unchanged",
+      "why": "Kept as is: your stats, your headline, your button. The five ideas start on the next screen."
+    },
+    "goal": {
+      "idea": 0,
+      "t": "The goal, asked up front",
+      "why": "Your own ‘Choose your objective’ screen, moved from inside the app into onboarding. It sets up idea 1."
+    },
+    "days": {
+      "idea": 0,
+      "t": "Days per week, unchanged",
+      "why": "Kept as is. The notification prompt and four widget screens that used to follow now wait until after the paywall (idea 3)."
+    },
+    "lift": {
+      "idea": 0,
+      "t": "One set they already know",
+      "why": "One recent set, plus the bodyweight you already ask for ‘to calculate your ranks’. This sets up idea 4."
+    },
+    "rank": {
+      "idea": 4,
+      "t": "Their rank, before the paywall",
+      "why": "<b>Try</b> showing a real rank from one set they know, <b>because</b> ranks are what your listing leads with, and someone who just saw ‘Gold II’ wants the plan that gets them to Ruby.",
+      "iv": "CR +5–15%",
+      "il": "to purchase",
+      "also": "The tier cut-offs in this prototype are illustrative. The real ones are yours."
+    },
+    "plan": {
+      "idea": 1,
+      "t": "Say their goal back to them",
+      "why": "<b>Try</b> asking the goal early and naming it here and on the paywall, <b>because</b> the answers already shape the plan, yet the paywall still opens with ‘Choose your plan’, the same line for everyone.",
+      "iv": "CR +10–20%",
+      "il": "to purchase",
+      "also": "The rank from idea 4 is carried here too, next to days per week."
+    },
+    "paywall": {
+      "idea": 2,
+      "t": "The free week, on the first paywall",
+      "why": "<b>Try</b> your own 7-day trial timeline on the onboarding paywall, <b>because</b> that’s where most purchases happen, and in Health & Fitness a free trial tends to raise lifetime value rather than dilute it.",
+      "iv": "CR +10–20%",
+      "il": "to trial or purchase",
+      "also": "Idea 1 is here too: the headline names the goal, and ‘Today’ names the 3-day plan."
+    },
+    "offer": {
+      "idea": 5,
+      "t": "One honest offer on close",
+      "why": "<b>Try</b> one sheet with the $34.99 yearly price and its real saving, <b>because</b> 30% off the price they just saw is true and easy to check, so it doesn’t need a countdown or a threat to be worth taking.",
+      "iv": "ARPU +5–10%",
+      "il": "from people who close the paywall",
+      "also": "‘Unlock custom plan’ and ‘Continue without custom plan’ are kept word for word."
+    },
+    "setup": {
+      "idea": 3,
+      "t": "Permissions after the purchase",
+      "why": "<b>Try</b> asking for notifications and the streak widget right after the purchase, <b>because</b> a system prompt plus four how-to screens just before the paywall pull attention away right as the plan is about to pay off.",
+      "iv": "CR +10–15%",
+      "il": "to purchase",
+      "also": "The flow shows this screen. Your app still makes the system call, as it does today."
+    },
+    "today": {
+      "idea": 0,
+      "t": "Your paywall today",
+      "why": "Rebuilt from your recording, copy word for word. It sits outside the flow, for the side-by-side below."
+    }
+  },
+  "grounding": "Impact ranges are Adapty’s expected effect from teardowns and A/B tests across 30,000+ subscription apps, not measured lift for Symmetry. They overlap, so they don’t add up.",
+  "sources": [
+    {
+      "group": "Prices",
+      "items": [
+        {
+          "dt": "$49.99 a year · $14.99 a month",
+          "dd": "Your onboarding paywall (‘Save 72%’, $4.16 / month) and the App Store In-App Purchases list: Symmetry Pro Annual $49.99, Plan Mensual $14.99."
+        },
+        {
+          "dt": "Save 72%",
+          "dd": "$49.99 against 12 × $14.99 ($179.88), as your paywall shows."
+        },
+        {
+          "dt": "7-day free trial, then $49.99 a year",
+          "dd": "Your in-app trial paywall and Apple’s purchase sheet on it: ‘1-week free trial, $49.99 per year’."
+        },
+        {
+          "dt": "$34.99 for the first year",
+          "dd": "Your one-time offer screen (‘12 Mo • $34.99’, ‘$2.91/month’) and the App Store IAP ‘Symmetry Pro Anual Oferta’. 30% less than $49.99."
+        },
+        {
+          "dt": "Spain: 39,99 € a year · 12,99 € a month · 23,99 € offer",
+          "dd": "<a href=\"https://apps.apple.com/es/app/symmetry-gym-tracker-con-ia/id6474446718\" target=\"_blank\" rel=\"noopener\">Spain App Store</a> In-App Purchases: Symmetry Pro Anual 39,99 €, Plan Mensual 12,99 €, Symmetry Pro Anual Oferta 23,99 €. ‘Ahorra un 74%’ is 39,99 € against 12 × 12,99 €; 3,33 € and 1,99 € a month follow from them."
+        },
+        {
+          "dt": "Not used",
+          "dd": "Other yearly prices on the App Store list ($59.99, $69.99, ‘Anual Free Trial’ $59.99) and the $1.99 30-day trial. We used the prices your live onboarding paywall shows."
+        }
+      ]
+    },
+    {
+      "group": "Proof",
+      "items": [
+        {
+          "dt": "4.8 from 6,154 ratings",
+          "dd": "<a href=\"https://apps.apple.com/us/app/symmetry-ai-gym-workout-log/id6474446718\" target=\"_blank\" rel=\"noopener\">US App Store listing</a>, September 2026."
+        },
+        {
+          "dt": "Spain: 4,8 from 11.079 ratings",
+          "dd": "Spain App Store listing, September 2026. The Spanish paywall uses it."
+        },
+        {
+          "dt": "2 Million+ athletes · 25 Million+ workouts · +100,000 5-Star Reviews",
+          "dd": "Your welcome screen, kept word for word."
+        },
+        {
+          "dt": "Not used",
+          "dd": "‘4.9 rating’ on your in-app paywall. The US listing shows 4.8, so the new paywall line uses that."
+        }
+      ]
+    },
+    {
+      "group": "Features and copy",
+      "items": [
+        {
+          "dt": "Choose your objective",
+          "dd": "Your in-app goal screen (Improve functionality, Gain muscle, Gain strength, Lose fat), moved into onboarding."
+        },
+        {
+          "dt": "Rank ladder",
+          "dd": "Your tiers and their ‘top’ shares: Silver 60%, Gold 44%, Ruby 31%, Emerald 20%, Diamond 11%, Champion 5%, Symmetric 1%. ‘Get your rank’ is the first App Store screenshot."
+        },
+        {
+          "dt": "Trial timeline, plan screen, notification prompt, offer sheet",
+          "dd": "Your screens with their copy kept word for word. What we added: the goal, the days per week and the rank."
+        },
+        {
+          "dt": "Goal date",
+          "dd": "Your plan screen’s own date; the prototype shows today + 2 months, the same gap as in your flow."
+        },
+        {
+          "dt": "Spanish copy",
+          "dd": "Our translation, not your own strings; your localized copy replaces it. The Spain listing names English as the app’s only language, so we couldn’t see yours."
+        },
+        {
+          "dt": "Today’s paywall",
+          "dd": "Rebuilt from your onboarding paywall in the recording (ScreensDesign screen 355015): copy, prices, testimonial and layout word for word."
+        }
+      ]
+    },
+    {
+      "group": "Design",
+      "items": [
+        {
+          "dt": "Colours",
+          "dd": "Sampled from your screens: #131313 background, #212121 rows, white buttons, #3773F3 and #1789F9 blue, #D7E7FE selected plan, #1E2E47 navy glow; rank colours from your rank ladder."
+        },
+        {
+          "dt": "Type",
+          "dd": "DM Sans (Google Fonts), the closest match to the typeface on your screens."
+        },
+        {
+          "dt": "Art",
+          "dd": "Wordmark, laurels, stars, goal icons, rank badges and plan icons are cut from your own screens with their backgrounds removed. A faint arrow behind the ‘Improve functionality’ figure was erased."
+        }
+      ]
+    },
+    {
+      "group": "What we couldn’t see",
+      "items": [
+        {
+          "dt": "How a lift maps to a rank",
+          "dd": "The prototype estimates a 1RM (Epley) and compares it with bodyweight using illustrative cut-offs. Your real thresholds replace them."
+        },
+        {
+          "dt": "Your test history",
+          "dd": "For example, whether a trial on the onboarding paywall has been tested before."
+        },
+        {
+          "dt": "Spain trial product",
+          "dd": "Which Spanish SKU carries the 7-day trial. The prototype shows it on the 39,99 € yearly plan."
+        },
+        {
+          "dt": "Product setup",
+          "dd": "Whether the 7-day trial can go on the onboarding placement, and whether the $34.99 offer is live in every storefront."
+        },
+        {
+          "dt": "Android",
+          "dd": "We walked the iOS flow only."
+        }
+      ]
+    }
+  ]
+}</script>
+
+<script>
+/* Symmetry hooks: language, goal words, days, rank from one set, dates, prices, the offer sheet over the paywall. */
+
+/* ---- prices per storefront (App Store IAP lists: US and Spain, Sep 2026) ---- */
+var P = {
+  en: {yr: '$49.99', mo: '$14.99', yrm: '$4.16', off: '$34.99', offm: '$2.91', save: '72%', offsave: '30%'},
+  es: {yr: '39,99 €', mo: '12,99 €', yrm: '3,33 €', off: '23,99 €', offm: '1,99 €', save: '74%', offsave: '40%'}
+};
+/* ---- static copy. EN mirrors the markup (their recorded copy); ES is our translation ---- */
+var T = {
+  en: {
+    w_lang: '🇺🇸 EN <span style="font-size:9px">▼</span>', w_s1: '2 Million+', w_s1b: 'athletes use Symmetry', w_s2: '25 Million+', w_s2b: 'workouts logged',
+    w_s3: '+100,000', w_s3b: '5-Star Reviews', w_hl: 'Get your dream physique', w_cta: 'Get started', w_login: 'Already have an account? <b>Log in</b>',
+    g_h: 'Choose your objective', g_muscle: 'Gain<br>muscle', g_strength: 'Gain<br>strength', g_fat: 'Lose<br>fat', g_func: 'Improve<br>functionality', continue: 'Continue',
+    d_q: 'How many times a week do you want to work out?', d_seg1: 'Days per week', d_seg2: 'Specific days',
+    d_1: '1 day / week', d_2: '2 days / week', d_3: '3 days / week', d_4: '4 days / week', d_5: '5 days / week', d_6: '6 days / week', d_7: 'Every day',
+    d_1h: 'It\'s a start', d_2h: 'Solid', d_3h: 'Consistent', d_4h: 'Committed', d_5h: 'Incredible', d_6h: 'No excuses', d_7h: 'Unstoppable',
+    l_q: 'Where do you rank right now?', l_sub: 'Log one recent set you\'re sure of. Your bodyweight is used to calculate your ranks.',
+    l_bench: 'Bench press', l_squat: 'Squat', l_press: 'Military press', l_set: 'Set', l_reps: 'Reps', l_bw: 'Bodyweight', l_bwsub: 'From your answers', l_skip: 'Skip', l_cta: 'See my rank',
+    r_lab: '⌃ Your starting rank', r_best: 'BEST SET', r_orm: 'EST. 1RM', r_next: 'Next: <b data-r="next"></b>. Symmetry tells you exactly when to add weight to get there.',
+    p_h: 'Congratulations!<br>Your <span data-g="w"></span> plan is ready!', p_perweek: 'per week', p_focus: 'focus',
+    p_b2: 'You\'ll gain <b>so much confidence</b> in yourself', p_b3: 'You\'ll have fun training with <b>ranks</b>', p_cap: 'Discover what you\'re capable of',
+    c_plateau: 'Plateau', c_with: 'With Symmetry', c_without: 'Without Symmetry',
+    pw_rate: '<i>★★★★★</i> 4.8 from 6,154 App Store ratings', pw_today: 'Today',
+    pw_todayb: 'Get instant access to your <span data-d="adj"></span> <span data-g="w"></span> plan and see how it changes your life',
+    pw_rem: 'In 4 Days – Reminder', pw_remb: 'We\'ll send you a reminder that your trial is ending soon.',
+    pw_bill: 'In 7 Days – Billing Starts', pw_billb: 'You\'ll be charged on <span data-date="bill"></span> unless you cancel anytime before.',
+    pw_save: 'Save {save}', pw_yr: 'Yearly', pw_yrd: '7 days free, then {yr} / year', pw_yrm: '{yrm} / month', pw_mo: 'Monthly', pw_mom: '{mo} / month',
+    pw_nopay: 'No Payment Due Now', pw_nocommit: 'No commitment, cancel anytime', pw_cta: 'Start my 7 day-free trial',
+    pw_fine: 'Free access for 7 days, then {yr}/year', pw_finem: '{mo} billed every month. Cancel anytime.',
+    o_h: 'Keep your <span data-d="adj"></span> <span data-g="w"></span> plan', o_p: 'Not ready for {yr}? Get the full year for {off} instead.',
+    o_k: 'Welcome offer', o_b: 'Yearly · {off}', o_s: '12 Mo • {offsave} less than {yr}', o_m: '{offm}/month',
+    o_skip: 'Continue without custom plan', o_cta: 'Unlock custom plan', o_legal: 'Billed {off} for the first year. Cancel anytime.',
+    s_done: 'You have obtained Symmetry PRO', s_n1: 'Time to train today!', s_n2: 'Back and Biceps: 45m-60m', s_ago: '2h ago',
+    s_t: 'Enable notifications to stay focused on your goals', s_s: 'You are 2 times more likely to achieve your goals with reminders',
+    s_w: 'Next: <b>56 DAYS · GREAT WORKOUT!</b> streak widget', s_not: 'Not now'
+  },
+  es: {
+    w_lang: '🇪🇸 ES <span style="font-size:9px">▼</span>', w_s1: '+2 millones', w_s1b: 'de atletas usan Symmetry', w_s2: '+25 millones', w_s2b: 'de entrenamientos registrados',
+    w_s3: '+100.000', w_s3b: 'reseñas de 5 estrellas', w_hl: 'Consigue el físico de tus sueños', w_cta: 'Empezar', w_login: '¿Ya tienes una cuenta? <b>Inicia sesión</b>',
+    g_h: 'Elige tu objetivo', g_muscle: 'Ganar<br>músculo', g_strength: 'Ganar<br>fuerza', g_fat: 'Perder<br>grasa', g_func: 'Mejorar<br>funcionalidad', continue: 'Continuar',
+    d_q: '¿Cuántas veces a la semana quieres entrenar?', d_seg1: 'Días por semana', d_seg2: 'Días concretos',
+    d_1: '1 día / semana', d_2: '2 días / semana', d_3: '3 días / semana', d_4: '4 días / semana', d_5: '5 días / semana', d_6: '6 días / semana', d_7: 'Todos los días',
+    d_1h: 'Es un comienzo', d_2h: 'Sólido', d_3h: 'Constante', d_4h: 'Comprometido', d_5h: 'Increíble', d_6h: 'Sin excusas', d_7h: 'Imparable',
+    l_q: '¿Qué rango tienes ahora mismo?', l_sub: 'Registra una serie reciente de la que estés seguro. Tu peso corporal se usa para calcular tus rangos.',
+    l_bench: 'Press de banca', l_squat: 'Sentadilla', l_press: 'Press militar', l_set: 'Serie', l_reps: 'Reps', l_bw: 'Peso corporal', l_bwsub: 'De tus respuestas', l_skip: 'Omitir', l_cta: 'Ver mi rango',
+    r_lab: '⌃ Tu rango inicial', r_best: 'MEJOR SERIE', r_orm: '1RM EST.', r_next: 'Siguiente: <b data-r="next"></b>. Symmetry te dice exactamente cuándo subir peso para llegar.',
+    p_h: '¡Enhorabuena!<br>¡Tu plan <span data-g="w"></span> está listo!', p_perweek: 'por semana', p_focus: 'enfoque',
+    p_b2: 'Ganarás <b>muchísima confianza</b> en ti mismo', p_b3: 'Te divertirás entrenando con <b>rangos</b>', p_cap: 'Descubre de lo que eres capaz',
+    c_plateau: 'Meseta', c_with: 'Con Symmetry', c_without: 'Sin Symmetry',
+    pw_rate: '<i>★★★★★</i> 4,8 de 11.079 valoraciones en la App Store', pw_today: 'Hoy',
+    pw_todayb: 'Accede al instante a tu plan <span data-g="w"></span> de <span data-d="adj"></span> y descubre cómo cambia tu vida',
+    pw_rem: 'En 4 días – Recordatorio', pw_remb: 'Te avisaremos cuando tu prueba esté a punto de terminar.',
+    pw_bill: 'En 7 días – Empieza el cobro', pw_billb: 'Se te cobrará el <span data-date="bill"></span> salvo que canceles antes.',
+    pw_save: 'Ahorra un {save}', pw_yr: 'Anual', pw_yrd: '7 días gratis, luego {yr} / año', pw_yrm: '{yrm} / mes', pw_mo: 'Mensual', pw_mom: '{mo} / mes',
+    pw_nopay: 'Hoy no pagas nada', pw_nocommit: 'Sin compromiso, cancela cuando quieras', pw_cta: 'Empezar mi prueba gratis de 7 días',
+    pw_fine: 'Acceso gratis durante 7 días, luego {yr}/año', pw_finem: '{mo} al mes. Cancela cuando quieras.',
+    o_h: 'Conserva tu plan <span data-g="w"></span> de <span data-d="adj"></span>', o_p: '¿Aún no te decides por {yr}? Llévate el año completo por {off}.',
+    o_k: 'Oferta de bienvenida', o_b: 'Anual · {off}', o_s: '12 meses • un {offsave} menos que {yr}', o_m: '{offm}/mes',
+    o_skip: 'Continuar sin plan personalizado', o_cta: 'Desbloquear plan personalizado', o_legal: 'Se cobran {off} el primer año. Cancela cuando quieras.',
+    s_done: 'Ya tienes Symmetry PRO', s_n1: '¡Hoy toca entrenar!', s_n2: 'Espalda y bíceps: 45-60 min', s_ago: 'hace 2 h',
+    s_t: 'Activa las notificaciones para no perder de vista tus objetivos', s_s: 'Con recordatorios tienes el doble de probabilidades de lograr tus objetivos',
+    s_w: 'Después: widget de racha <b>56 DÍAS · ¡GRAN ENTRENAMIENTO!</b>', s_not: 'Ahora no'
+  }
+};
+var G = {
+  en: {
+    muscle:   {w: 'muscle',   chip: 'Muscle',   by: 'Build muscle by:',  ben: 'You’ll maximize <b>muscle gain</b>',              hl: 'Start gaining muscle today with your FREE 7‑day trial'},
+    strength: {w: 'strength', chip: 'Strength', by: 'Get stronger by:',  ben: 'You’ll add <b>weight to every lift</b>',           hl: 'Start getting stronger today with your FREE 7‑day trial'},
+    fat:      {w: 'fat-loss', chip: 'Fat loss', by: 'Lose fat by:',      ben: 'You’ll <b>lose fat</b> and keep your muscle',       hl: 'Start losing fat today with your FREE 7‑day trial'},
+    func:     {w: 'mobility', chip: 'Mobility', by: 'Move better by:',   ben: 'You’ll <b>move better</b> in and out of the gym',   hl: 'Start moving better today with your FREE 7‑day trial'}
+  },
+  es: {
+    muscle:   {w: 'de hipertrofia',       chip: 'Músculo',   by: 'Gana músculo para el:',  ben: 'Maximizarás tu <b>ganancia muscular</b>',              hl: 'Empieza hoy a ganar músculo con 7 días GRATIS'},
+    strength: {w: 'de fuerza',            chip: 'Fuerza',    by: 'Gana fuerza para el:',   ben: 'Subirás <b>peso en cada ejercicio</b>',                 hl: 'Empieza hoy a ganar fuerza con 7 días GRATIS'},
+    fat:      {w: 'de pérdida de grasa',  chip: 'Grasa',     by: 'Pierde grasa para el:',  ben: '<b>Perderás grasa</b> sin perder músculo',              hl: 'Empieza hoy a perder grasa con 7 días GRATIS'},
+    func:     {w: 'de movilidad',         chip: 'Movilidad', by: 'Muévete mejor para el:', ben: 'Te <b>moverás mejor</b> dentro y fuera del gimnasio',   hl: 'Empieza hoy a moverte mejor con 7 días GRATIS'}
+  }
+};
+var LAB = {en: {muscle: 'Gain muscle', strength: 'Gain strength', fat: 'Lose fat', func: 'Improve functionality'},
+           es: {muscle: 'Ganar músculo', strength: 'Ganar fuerza', fat: 'Perder grasa', func: 'Mejorar funcionalidad'}};
+var EX = {en: {bench: 'Bench press', squat: 'Squat', press: 'Military press'}, es: {bench: 'Press de banca', squat: 'Sentadilla', press: 'Press militar'}};
+var EXLOW = {en: {bench: 'bench rank', squat: 'squat rank', press: 'press rank'}, es: {bench: 'rango en banca', squat: 'rango en sentadilla', press: 'rango en press'}};
+/* their ladder (355033/355034): tier and the "top x%" it starts at */
+var TIERS = [['iron', 'IRON', 95], ['bronze', 'BRONZE', 79], ['silver', 'SILVER', 60], ['gold', 'GOLD', 44], ['ruby', 'RUBY', 31],
+             ['emerald', 'EMERALD', 20], ['diamond', 'DIAMOND', 11], ['champion', 'CHAMPION', 5], ['symmetric', 'SYMMETRIC', 1]];
+var TIER_ES = {IRON: 'HIERRO', BRONZE: 'BRONCE', SILVER: 'PLATA', GOLD: 'ORO', RUBY: 'RUBÍ', EMERALD: 'ESMERALDA', DIAMOND: 'DIAMANTE', CHAMPION: 'CAMPEÓN', SYMMETRIC: 'SIMÉTRICO'};
+/* ILLUSTRATIVE cut-offs: estimated 1RM ÷ bodyweight where each tier starts. Symmetry's real thresholds replace these. */
+var CUT = {bench: [0, .6, .8, 1, 1.2, 1.4, 1.6, 1.8], squat: [0, .75, 1, 1.25, 1.5, 1.75, 2, 2.25], press: [0, .37, .5, .62, .75, .87, 1, 1.12]};
+/* badge art cut from their rank ladder; listed literally so publishing picks every file up */
+var BADGE = {iron: 'assets/crop/rank-iron.png', bronze: 'assets/crop/rank-bronze.png', silver: 'assets/crop/rank-silver.png', gold: 'assets/crop/rank-gold.png',
+             ruby: 'assets/crop/rank-ruby.png', emerald: 'assets/crop/rank-emerald.png', diamond: 'assets/crop/rank-diamond.png'};
+Object.keys(BADGE).forEach(function(k){ new Image().src = BADGE[k]; });
+
+function rankOf(S){
+  var orm = S.kg * (1 + S.reps / 30), r = orm / S.bw, c = CUT[S.lift], i = 0;
+  while (i < 6 && r >= c[i + 1]) i++;                 /* capped at Diamond: the badges we have */
+  var lo = c[i], hi = c[i + 1] || lo + .2, f = Math.max(0, Math.min(.999, (r - lo) / (hi - lo))), sub = Math.floor(f * 3);
+  var t0 = TIERS[i][2], t1 = TIERS[i + 1][2];
+  return {k: TIERS[i][0], tier: TIERS[i][1], sub: ['III', 'II', 'I'][sub], top: Math.round(t0 - (t0 - t1) * sub / 3), orm: Math.round(orm), next: TIERS[i + 1]};
+}
+function tierName(n, lang){ return lang === 'es' ? TIER_ES[n] : n; }
+function fmtKg(v, lang){ var s = (Math.round(v * 10) / 10).toString(); return lang === 'es' ? s.replace('.', ',') : s; }
+function cap(s){ return s.charAt(0) + s.slice(1).toLowerCase(); }
+function fill(s, lang){ return s.replace(/\{(\w+)\}/g, function(_, k){ return P[lang][k]; }); }
+var TODAY = new Date();
+function plus(days){ var d = new Date(TODAY); d.setDate(d.getDate() + days); return d; }
+var M = {en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+         es: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']};
+var LANG_DONE = 'en';
+
+/* switch the prototype's language (the welcome screen's EN pill, the audit's EN/ES control, ?lang=es) */
+function setLang(l){
+  if (!T[l]) return;
+  S.lang = l; C.labels.goal = LAB[l];
+  document.querySelectorAll('.phone [data-t]').forEach(function(el){ el.setAttribute('lang', l); });
+  sync();
+  if (window.onLang) window.onLang(l);
+}
+
+window.onSync = function(S){
+  var L = S.lang || 'en';
+  if (L !== LANG_DONE) {  /* re-render the static copy only when the language changes */
+    document.querySelectorAll('[data-t]').forEach(function(el){ var s = T[L][el.dataset.t]; if (s != null) el.innerHTML = fill(s, L); });
+    LANG_DONE = L;
+  }
+  var g = G[L][S.goal] || G[L].muscle;
+  document.querySelectorAll('[data-g]').forEach(function(el){ el.innerHTML = g[el.dataset.g]; });
+  var n = +S.days;
+  document.querySelectorAll('[data-d]').forEach(function(el){
+    el.textContent = L === 'es'
+      ? (el.dataset.d === 'adj' ? n + (n === 1 ? ' día' : ' días') : (n === 7 ? 'Todos' : n + (n === 1 ? ' día' : ' días')))
+      : (el.dataset.d === 'adj' ? (n === 7 ? 'every-day' : n + '-day') : (n === 7 ? 'Every day' : n + (n === 1 ? ' day' : ' days')));
+  });
+  var R = rankOf(S), name = tierName(R.tier, L) + ' ' + R.sub, set = {
+    exname: EX[L][S.lift], exup: EX[L][S.lift], exlow: EXLOW[L][S.lift],
+    kg: fmtKg(S.kg, L), reps: S.reps, bwkg: S.bw + ' kg', name: name, short: cap(tierName(R.tier, L)) + ' ' + R.sub,
+    top: 'TOP ' + R.top + '%', set: fmtKg(S.kg, L) + ' kg x ' + S.reps, orm: R.orm + ' KG', next: tierName(R.next[1], L) + ' · top ' + R.next[2] + '%'
+  };
+  document.querySelectorAll('[data-r]').forEach(function(el){
+    var k = el.dataset.r;
+    if (k === 'badge') el.src = BADGE[R.k];
+    else if (k === 'nextimg') { el.style.display = BADGE[R.next[0]] ? '' : 'none'; if (BADGE[R.next[0]]) el.src = BADGE[R.next[0]]; }
+    else if (k in set) el.textContent = set[k];
+  });
+  var rk = document.querySelector('.scr[data-id="rank"]'); if (rk) rk.style.setProperty('--tier', 'var(--b-t-' + R.k + ')');
+  var goalD = plus(61), bill = plus(7), m = M[L];
+  document.querySelectorAll('[data-date]').forEach(function(el){
+    el.textContent = el.dataset.date === 'goal'
+      ? (L === 'es' ? goalD.getDate() + ' de ' + m[goalD.getMonth()] + ' de ' + goalD.getFullYear() : m[goalD.getMonth()] + ' ' + goalD.getDate() + ', ' + goalD.getFullYear())
+      : (L === 'es' ? bill.getDate() + ' ' + m[bill.getMonth()].slice(0, 3) + ' ' + bill.getFullYear() : m[bill.getMonth()].slice(0, 3) + ' ' + bill.getDate() + ', ' + bill.getFullYear());
+  });
+};
+window.onEnter = function(id, S){
+  /* the offer sheet slides up over the paywall, as their close modal does */
+  scr.paywall.classList.toggle('s-under', id === 'offer');
+  if (id === 'setup') scr.paywall.classList.add('is-past');
+  if (window.onScreen) window.onScreen(id);
+};
+document.addEventListener('click', function(e){
+  var t = e.target.closest('[data-langtoggle]'); if (t) { setLang(S.lang === 'es' ? 'en' : 'es'); return; }
+  var b = e.target.closest('[data-step]'); if (!b) return;
+  var p = b.dataset.step.split(':'), k = p[0], v = S[k] + parseFloat(p[1]);
+  var lim = {kg: [2.5, 300], reps: [1, 20], bw: [40, 160]}[k];
+  S[k] = Math.max(lim[0], Math.min(lim[1], v)); sync();
+});
+</script>
+<script>
+/* ============ engine — generic, do not fork per app ============ */
+var C = JSON.parse(document.getElementById('content').textContent);
+var S = C.state, scr = {}, ORDER = [], hist = [], cur = null;
+var SHOT = /[?&](shot|phone)\b/.test(location.search), HERO = /[?&]hero\b/.test(location.search);
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id] = s; ORDER.push(s.dataset.id); });
+if (/[?&]shot\b/.test(location.search)) document.documentElement.classList.add('shot');
+if (/[?&]phone\b/.test(location.search)) document.documentElement.classList.add('shot', 'phoneonly');
+if (/[?&]clear\b/.test(location.search)) document.documentElement.classList.add('clear');
+var IDEAS = (C.ideas || []).length;
+
+function lab(key){ var v = S[key]; var L = C.labels[key]; if (Array.isArray(v)) return v.map(function(x){ return L && L[x] || x; }).join(', '); return (L && L[v]) || v; }
+function sync(){
+  document.querySelectorAll('[data-bind]').forEach(function(el){
+    var b = el.dataset.bind, m = b.split(':');
+    el.textContent = m[0] === 'label' ? lab(m[1]) : m[0] === 'count' ? (S[m[1]] || []).length : (S[b] == null ? '' : S[b]);
+  });
+  document.querySelectorAll('[data-pick]').forEach(function(el){ var p = el.dataset.pick.split(':'); el.classList.toggle('on', S[p[0]] === p[1]); });
+  document.querySelectorAll('[data-toggle]').forEach(function(el){ var p = el.dataset.toggle.split(':'); el.classList.toggle('on', (S[p[0]] || []).indexOf(p[1]) > -1); });
+  document.querySelectorAll('[data-requires]').forEach(function(el){ el.disabled = !(S[el.dataset.requires] || []).length; });
+  document.querySelectorAll('[data-show]').forEach(function(el){ var p = el.dataset.show.split(':'); el.style.display = String(S[p[0]]) === p[1] ? '' : 'none'; });
+  if (window.onSync) window.onSync(S);
+}
+function show(id, dir){
+  var from = scr[cur], to = scr[id]; if (!to || id === cur) return;
+  if (from){ from.classList.remove('is-active'); if (dir === 'fwd' && !to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past'); }
+  to.classList.remove('is-past'); to.classList.add('is-active'); cur = id;
+  paint(); if (window.onEnter) window.onEnter(id, S);
+}
+function go(id){ if (cur) hist.push(cur); show(id, 'fwd'); }
+function back(){ if (hist.length) { var p = hist.pop(); scr[cur].classList.remove('is-active'); show(p, 'back'); } }
+function jump(id){
+  ORDER.forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active', 'is-past'); });
+  var i = ORDER.indexOf(id); hist = ORDER.slice(0, i < 0 ? 0 : i); cur = null;
+  ORDER.slice(0, i).forEach(function(k){ if (!scr[k].classList.contains('sheet')) scr[k].classList.add('is-past'); });
+  show(id, 'jump');
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ ORDER.forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+}
+function stepBy(d){ var i = ORDER.indexOf(cur) + d; if (i >= 0 && i < ORDER.length) jump(ORDER[i]); }
+function jumpTo(id){
+  var p = document.getElementById('prototype');
+  if (p) p.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+  jump(id);
+}
+function paint(){
+  sync();
+  var c = document.getElementById('chips');
+  if (!c.childElementCount) ORDER.forEach(function(id){
+    var p = C.panel[id] || {}, b = document.createElement('button');
+    b.className = 'au-chip'; b.type = 'button'; b.dataset.id = id; b.setAttribute('role', 'tab');
+    b.innerHTML = (p.idea ? '<i>' + p.idea + '</i>' : '') + ((C.chips && C.chips[id]) || id);
+    b.onclick = function(){ jump(id); };
+    c.appendChild(b);
+  });
+  c.querySelectorAll('.au-chip').forEach(function(b){ var on = b.dataset.id === cur; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  var d = C.panel[cur] || {t: cur, why: ''}, n = ORDER.indexOf(cur) + 1;
+  document.getElementById('panel').innerHTML =
+    (d.idea ? '<div class="au-pn-k"><i></i>Idea ' + d.idea + ' of ' + IDEAS + '</div>' : '<div class="au-pn-k au-ctx"><i></i>Context</div>') +
+    '<h3 class="au-pn-t">' + d.t + '</h3><p class="au-pn-h">' + d.why + '</p>' +
+    (d.iv ? '<div class="au-pn-o"><div class="au-lab">Potential outcome · based on Adapty data</div><div class="au-val"><mark>' + d.iv + '</mark></div><div class="au-sub">' + (d.il || '') + '</div></div>' : '') +
+    (d.also ? '<p class="au-pn-a">' + d.also + '</p>' : '') +
+    '<div class="au-pn-nav"><button type="button" onclick="stepBy(-1)"' + (n === 1 ? ' disabled' : '') + '>‹ Previous</button><span>Screen ' + n + ' of ' + ORDER.length + '</span><button type="button" onclick="stepBy(1)"' + (n === ORDER.length ? ' disabled' : '') + '>Next ›</button></div>';
+}
+document.addEventListener('click', function(e){
+  var j = e.target.closest('[data-jumpto]'); if (j){ e.preventDefault(); jumpTo(j.dataset.jumpto); return; }
+  var el = e.target.closest('[data-go],[data-back],[data-pick],[data-toggle]'); if (!el) return;
+  if (el.dataset.pick){ var p = el.dataset.pick.split(':'); S[p[0]] = p[1]; sync(); if (el.dataset.advance) setTimeout(function(){ go(el.dataset.advance); }, 170); return; }
+  if (el.dataset.toggle){ var q = el.dataset.toggle.split(':'), a = S[q[0]] = S[q[0]] || [], i = a.indexOf(q[1]); if (i > -1) a.splice(i, 1); else a.push(q[1]); sync(); return; }
+  if ('back' in el.dataset) return back();
+  go(el.dataset.go);
+});
+document.querySelectorAll('[data-input]').forEach(function(inp){
+  inp.value = S[inp.dataset.input] || ''; inp.addEventListener('input', function(){ S[inp.dataset.input] = inp.value.trim() || 'there'; sync(); });
+});
+
+/* hero stills, shortlist, outcome, sources — from CONTENT */
+document.getElementById('heroPhones').innerHTML = (C.hero || []).map(function(id, i){
+  var pos = ['l', 'c', 'r'][i] || 'r', t = (C.chips && C.chips[id]) || id;
+  return '<button class="au-hp au-' + pos + '" data-jumpto="' + id + '" aria-label="Open ' + t + '"><img src="assets/hero/' + id + '.png" alt=""></button>';
+}).join('');
+document.getElementById('ideaList').innerHTML = (C.ideas || []).map(function(r, i){
+  return '<article class="au-idea"><div class="au-num">0' + (i + 1) + '</div><div><h3>' + r.title + '</h3><p>' + r.what + '</p>' +
+    '<button type="button" class="au-lnk" data-jumpto="' + r.screen + '">See it on the screen</button></div>' +
+    '<div class="au-imp"><div class="au-v"><mark>' + r.impact + '</mark></div><div class="au-l">' + r.il + '</div></div></article>';
+}).join('');
+var O = C.outcome || {};
+document.getElementById('bandNums').innerHTML =
+  (O.cr ? '<div><small>up to</small><b>' + O.cr + '</b><span>CR to purchase</span></div>' : '') +
+  (O.arpu ? '<div><small>up to</small><b>' + O.arpu + '</b><span>ARPU</span></div>' : '');
+document.getElementById('bandFn').textContent = C.grounding;
+document.getElementById('fine').textContent = C.grounding + ' Prepared by Adapty.';
+document.getElementById('srcBody').innerHTML = C.sources.map(function(g){
+  return '<div><h4>' + g.group + '</h4><dl>' + g.items.map(function(it){ return '<dt>' + it.dt + '</dt><dd>' + it.dd + '</dd>'; }).join('') + '</dl></div>';
+}).join('');
+function openSrc(){ var d = document.getElementById('srcDetails'); d.open = true; d.scrollIntoView({block: 'start'}); }
+
+/* boot: #<screen-id> deep-links a screen (shoot.sh / hero-stills.sh use it) */
+(function(){
+  var h = location.hash.slice(1);
+  jump(scr[h] ? h : ORDER[0]);
+  if (scr[h] && !SHOT) setTimeout(function(){ document.getElementById('prototype').scrollIntoView(); }, 0);
+})();
+</script>
+<script>
+/* ============ v2 extras — runs after the engine: today-paywall, language, ?app phone view, video, ?tour ============ */
+(function(){
+  var H = document.documentElement, Q = location.search;
+
+  /* 1. the TODAY paywall is only there for the side-by-side still — keep it out of the flow and the chips */
+  var ti = ORDER.indexOf('today');
+  if (ti > -1) {
+    ORDER.splice(ti, 1);
+    var tc = document.querySelector('.au-chip[data-id="today"]'); if (tc) tc.remove();
+    if (cur !== 'today') paint();
+  }
+
+  /* 2. language: the audit's EN/ES control, the app bar, the welcome screen's own EN pill, ?lang=es */
+  function markLang(l){ document.querySelectorAll('[data-setlang]').forEach(function(b){ b.classList.toggle('on', b.dataset.setlang === l); }); }
+  window.onLang = markLang;
+  document.addEventListener('click', function(e){ var b = e.target.closest('[data-setlang]'); if (b) setLang(b.dataset.setlang); });
+  var lm = /[?&]lang=(\w+)/.exec(Q); if (lm) setLang(lm[1]);
+  markLang(S.lang || 'en');
+
+  /* 3. ?app — full screen on a phone (what the QR code opens); the bar at the bottom opens the idea panel */
+  var why = document.getElementById('abWhy');
+  function openPanel(open){ H.classList.toggle('au-open', open); why.querySelector('em').textContent = open ? 'Close ↓' : 'Why ↑'; }
+  if (/[?&]app\b/.test(Q)) {
+    H.classList.add('appmode');
+    why.onclick = function(){ openPanel(!H.classList.contains('au-open')); };
+    document.getElementById('abScrim').onclick = function(){ openPanel(false); };
+  }
+  window.onScreen = function(id){
+    var p = C.panel[id] || {}, t = document.getElementById('abT');
+    if (t) t.textContent = (p.idea ? 'Idea ' + p.idea + ' of ' + C.ideas.length + ' · ' : '') + (p.t || '');
+  };
+  onScreen(cur);
+
+  /* 4. the 30-second walkthrough video */
+  var dlg = document.getElementById('vid'), v = document.getElementById('vidEl');
+  document.querySelectorAll('[data-video]').forEach(function(b){ b.onclick = function(){ dlg.showModal(); v.play().catch(function(){}); }; });
+  document.getElementById('vidX').onclick = function(){ dlg.close(); };
+  dlg.addEventListener('close', function(){ v.pause(); });
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+
+  /* 5. ?tour — a deterministic 30-second walkthrough: tourAt(ms) paints one frame; cdp-frames.mjs records it */
+  if (/[?&]tour\b/.test(Q)) tour();
+
+  function tour(){
+    H.classList.add('tourmode', 'shot'); document.body.classList.add('nofx');
+    var TR = 360;
+    var SEG = [
+      {id: 'welcome', d: 3000, tap: ['[data-id="welcome"] .s-cta', 2500]},
+      {id: 'goal',    d: 900,  st: {goal: 'func'},   tap: ['[data-pick="goal:muscle"]', 450]},
+      {id: 'goal',    d: 1100, st: {goal: 'muscle'}, tap: ['[data-id="goal"] .s-cta', 650]},
+      {id: 'days',    d: 800,  st: {days: '3'},      tap: ['[data-pick="days:4"]', 350]},
+      {id: 'days',    d: 1000, st: {days: '4'},      tap: ['[data-id="days"] .s-cta', 550]},
+      {id: 'lift',    d: 800,  st: {kg: 60},         tap: ['[data-step="kg:2.5"]', 350]},
+      {id: 'lift',    d: 1100, st: {kg: 62.5},       tap: ['[data-id="lift"] .s-cta', 650]},
+      {id: 'rank',    d: 4000, tap: ['[data-id="rank"] .s-cta', 3500]},
+      {id: 'plan',    d: 3800, tap: ['[data-id="plan"] .s-cta', 3300]},
+      {id: 'paywall', d: 4400, tap: ['[data-id="paywall"] .s-x', 3900]},
+      {id: 'offer',   d: 2900, tap: ['[data-id="offer"] .s-blue', 2400]},
+      {id: 'setup',   d: 2800},
+      {id: 'setup',   d: 3500, end: true}
+    ];
+    var CAP = {
+      welcome: {k: 'Symmetry onboarding', t: 'Your welcome screen, unchanged', l: 'The five ideas start on the next tap.'},
+      goal:    {n: 1, t: 'Ask what they’re training for', l: 'Your in-app goal screen, moved into onboarding.'},
+      days:    {k: 'Context', t: 'Days per week, unchanged', l: 'The permission prompt and widget how-to now wait until after the paywall.'},
+      lift:    {n: 4, t: 'One set they already know', l: 'Plus the bodyweight you already ask for.'},
+      rank:    {n: 4, t: 'Their rank, before the paywall', l: '62.5 kg × 10 on bench → Gold II, top 40%.', o: '+5–15%', ol: 'CR to purchase'},
+      plan:    {n: 1, t: 'Say their goal back to them', l: 'The plan names the goal, the days and the rank.', o: '+10–20%', ol: 'CR to purchase'},
+      paywall: {n: 2, t: 'The free week, on the first paywall', l: 'Your own 7-day trial timeline, and a headline that names the goal.', o: '+10–20%', ol: 'CR to trial or purchase'},
+      offer:   {n: 5, t: 'One honest offer on close', l: '$34.99 for the year, 30% less than $49.99. No countdown.', o: '+5–10%', ol: 'ARPU'},
+      setup:   {n: 3, t: 'Permissions after the purchase', l: 'Notifications and the streak widget, once there’s a plan to remind them of.', o: '+10–15%', ol: 'CR to purchase'}
+    };
+    var START = [], STATE = [], acc = 0, st = {};
+    Object.keys(C.state).forEach(function(k){ st[k] = C.state[k]; });
+    SEG.forEach(function(s){ START.push(acc); acc += s.d; Object.keys(s.st || {}).forEach(function(k){ st[k] = s.st[k]; }); STATE.push(JSON.parse(JSON.stringify(st))); });
+    var TOTAL = acc, capEl = document.getElementById('tCap'), tap = document.getElementById('tTap'), pressed = null;
+    var ring = scr.rank.querySelector('.s-ring'), rname = scr.rank.querySelector('.s-rkn');
+    function ease(x){ return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+    function easeBack(x){ var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+    function capHTML(c){
+      return '<div class="au-tk' + (c.n ? '' : ' au-ctx') + '"><i></i>' + (c.n ? 'Idea ' + c.n + ' of 5' : c.k) + '</div><h2 class="au-tt">' + c.t + '</h2><p class="au-tl">' + c.l + '</p>' +
+        (c.o ? '<div class="au-to"><small>Potential outcome · based on Adapty data</small><b><mark>' + c.o + '</mark></b><span>' + c.ol + '</span></div>' : '');
+    }
+    window.TOUR_MS = TOTAL;
+    window.tourAt = function(ms){
+      ms = Math.max(0, Math.min(TOTAL - 1, ms));
+      var i = 0; while (i < SEG.length - 1 && ms >= START[i + 1]) i++;
+      var s = SEG[i], local = ms - START[i], prev = i > 0 ? SEG[i - 1] : null;
+      Object.keys(STATE[i]).forEach(function(k){ S[k] = STATE[i][k]; }); sync();
+      var moving = prev && prev.id !== s.id && local < TR, p = moving ? ease(local / TR) : 1;
+      Object.keys(scr).forEach(function(k){ var e = scr[k]; e.classList.remove('is-active', 'is-past', 's-under'); e.style.transform = 'translateX(100%)'; e.style.zIndex = 0; });
+      var B = scr[s.id];
+      if (moving) {
+        var A = scr[prev.id];
+        if (B.classList.contains('sheet')) { A.style.transform = 'none'; A.style.zIndex = 1; B.style.transform = 'translateY(' + (1 - p) * 100 + '%)'; }
+        else {
+          A.style.transform = 'translateX(' + (-28 * p) + '%)'; A.style.zIndex = 1; B.style.transform = 'translateX(' + (1 - p) * 100 + '%)';
+          if (A.classList.contains('sheet')) { scr.paywall.style.transform = A.style.transform; scr.paywall.style.zIndex = 0; }
+        }
+      } else B.style.transform = 'none';
+      B.style.zIndex = 2;
+      if (s.id === 'offer') { scr.paywall.style.transform = 'none'; scr.paywall.style.zIndex = 1; }
+      /* rank reveal pops in */
+      if (s.id === 'rank') {
+        var q = Math.max(0, Math.min(1, (local - 250) / 550));
+        ring.style.transform = 'scale(' + (.55 + .45 * easeBack(q)) + ')'; ring.style.opacity = Math.min(1, q * 1.6);
+        rname.style.opacity = Math.max(0, Math.min(1, (local - 520) / 300));
+      } else { ring.style.transform = ''; ring.style.opacity = ''; rname.style.opacity = ''; }
+      /* caption crossfades at screen changes */
+      var key = s.id, op = 1;
+      if (moving) { if (p < .5) { key = prev.id; op = 1 - p * 2; } else op = p * 2 - 1; }
+      if (capEl.dataset.k !== key) { capEl.innerHTML = capHTML(CAP[key]); capEl.dataset.k = key; }
+      var io = ms < 1100 ? 1 : Math.max(0, 1 - (ms - 1100) / 300), eo = s.end ? Math.min(1, local / 350) : 0;
+      capEl.style.opacity = op * Math.max(0, Math.min(1, (ms - 1400) / 300)) * (1 - eo);
+      /* the finger: fades in, taps, ripples out */
+      tap.style.opacity = 0; if (pressed) { pressed.style.opacity = ''; pressed = null; }
+      if (s.tap) {
+        var el = B.querySelector(s.tap[0]), dt = local - s.tap[1];
+        if (el && dt > -260 && dt < 420) {
+          var r = el.getBoundingClientRect();
+          tap.style.left = (r.left + r.width / 2) + 'px'; tap.style.top = (r.top + r.height / 2) + 'px';
+          if (dt < 0) { tap.style.opacity = (dt + 260) / 260 * .9; tap.style.transform = 'scale(1)'; }
+          else { tap.style.opacity = .9 * (1 - dt / 420); tap.style.transform = 'scale(' + (1 + dt / 420 * .9) + ')'; }
+          if (dt >= 0 && dt < 160) { el.style.opacity = .72; pressed = el; }
+        }
+      }
+      document.getElementById('tIntro').style.opacity = io;
+      document.getElementById('tEnd').style.opacity = eo;
+      document.getElementById('tProg').style.width = (ms / TOTAL * 100) + '%';
+      cur = s.id;
+      return i;
+    };
+    var tm = /[?&]t=(\d+)/.exec(Q); tourAt(tm ? +tm[1] : 0);
+  }
+})();
+</script>
+</body>
+</html>
